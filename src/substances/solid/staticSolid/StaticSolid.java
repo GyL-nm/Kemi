@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public abstract class StaticSolid extends Solid {
     public StaticSolid(int x, int y) { super(x, y); }
+    public StaticSolid(int x, int y, double temperature) { super(x, y, temperature); }
 
     @Override
     public void step(CellMatrix cellMatrix) {

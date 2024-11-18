@@ -10,6 +10,8 @@ import java.util.Collections;
 public abstract class Liquid extends Substance {
     protected Liquid(int x, int y) { super(x, y); }
 
+    public Liquid(int x, int y, double temperature) { super(x, y, temperature); }
+
 //    @Override
 //    public void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> adjacent) {
 //        ArrayList<Substance> priorityOrderedAdjacent = CellMatrix.flattenMatrix(adjacent);

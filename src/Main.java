@@ -15,17 +15,12 @@ public class Main {
         cellMatrix.fill(Air.class);
         System.out.println(cellMatrix);
 
-        cellMatrix.setCell(new Empty(4,2));
-        cellMatrix.setCell(new Empty(4,3));
+        cellMatrix.setCell(new Copper(4,2, 1000));
         System.out.println(cellMatrix);
 
-        cellMatrix.stepAll();
-        System.out.println(cellMatrix);
-
-        cellMatrix.stepAll();
-        System.out.println(cellMatrix);
-
-        cellMatrix.stepAll();
-        System.out.println(cellMatrix);
+        for (int i = 0; i<20; i++) {
+            cellMatrix.stepAll();
+            System.out.println(cellMatrix);
+        }
     }
 }

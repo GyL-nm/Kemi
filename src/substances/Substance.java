@@ -11,9 +11,14 @@ public abstract class Substance {
     public int y;
 
     public double mass; // mass of 1m^3 in g
-    public double temperature; // room temp = 23.0C
 
-    protected Substance(int x, int y) { this.setXY(x,y); temperature = 23.0; }
+    public double heatTransferFactor;
+    public double temperature; // room temp = 23
+
+    private java.util.Objects Objects;
+
+    public Substance(int x, int y) { this.setXY(x,y); temperature = 23; }
+    public Substance(int x, int y, double temperature) { this.setXY(x,y); this.temperature = temperature; }
 
     public void step(CellMatrix cellMatrix) {
         ArrayList<ArrayList<Substance>> adjacent = new ArrayList<>();
@@ -27,6 +32,8 @@ public abstract class Substance {
         }
         fall(cellMatrix, getFallCandidates(adjacent));
 //        diffuse(cellMatrix, adjacent);
+
+        transferHeat(adjacent);
     }
 
     public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) { return adjacent.get(2); }
@@ -46,9 +53,21 @@ public abstract class Substance {
         }
     }
 
-//    public abstract void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> diffuseCandidates);
+    public void transferHeat(ArrayList<ArrayList<Substance>> adjacent) {
+        double averageHeat = CellMatrix.flattenMatrix(adjacent).stream()
+                                .filter(java.util.Objects::nonNull)
+                                .mapToDouble(substance -> substance.temperature)
+                                .average().getAsDouble();
 
-    protected boolean isBelow(Substance compare) { return compare.y > y; }
+        double averageHeatTransfer = CellMatrix.flattenMatrix(adjacent).stream()
+                .filter(java.util.Objects::nonNull)
+                .mapToDouble(substance -> substance.heatTransferFactor)
+                .average().getAsDouble();
+
+        temperature += ((averageHeatTransfer*(averageHeat-temperature)));
+    }
+
+//    public abstract void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> diffuseCandidates);
 
     public int getX() { return x; }
     public int getY() { return y; }
@@ -59,8 +78,10 @@ public abstract class Substance {
     public String toString() {
         StringBuilder out = new StringBuilder();
 
+        String tempString = Double.toString((double) Math.round(temperature * 100) / 100);
+
         return out.append( this.getClass().getSimpleName() )
                 .append(" ("+ x + "," + y + ") ")
-                .append(temperature +"°C").toString();
+                .append(tempString +"°C").toString();
     }
 }

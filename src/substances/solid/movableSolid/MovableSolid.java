@@ -14,6 +14,8 @@ import java.util.Collections;
 public abstract class MovableSolid extends Solid {
     public MovableSolid(int x,int y) { super(x,y); }
 
+    public MovableSolid(int x, int y, double temperature) { super(x, y, temperature); }
+
     @Override
     public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) {
         ArrayList<Substance> candidates = adjacent.get(2);
