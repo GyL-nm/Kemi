@@ -102,7 +102,7 @@ public enum CellMatrix {
     }
 
     public void stepAll() {
-        for (Substance substance : this.getFlatMatrix()) { System.out.println(substance.x +","+ substance.y); substance.step(this); }
+        for (Substance substance : this.getFlatMatrix()) { substance.step(this); }
     }
 
     @Override

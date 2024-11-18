@@ -32,9 +32,9 @@ public abstract class Substance {
     public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) { return adjacent.get(2); }
 
     private void fall(CellMatrix cellMatrix, ArrayList<Substance> fallCandidates) {
-        System.out.println(fallCandidates);
+//        System.out.println(fallCandidates);
         for (Substance belowCell : fallCandidates) {
-            System.out.println(belowCell);
+//            System.out.println(belowCell);
             if (belowCell == null) continue;
 
             if (belowCell.getClass() == Empty.class

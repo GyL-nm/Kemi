@@ -10,10 +10,12 @@ public abstract class Gas extends Substance {
 
     protected Gas(int x, int y) { super(x, y); }
 
-    @Override
-    public void step(CellMatrix cellMatrix) {
-        System.out.println(this + " steps");
-    }
+//    @Override
+//    public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) {
+//        ArrayList<Substance> candidates = new ArrayList<>();
+//        candidates.add(adjacent.get(2).get(1));
+//        return candidates;
+//    }
 
     //    @Override
 //    public void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> diffuseCandidates) {
