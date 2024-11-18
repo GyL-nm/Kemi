@@ -6,8 +6,7 @@ public class Empty extends Substance {
     int x,y;
 
     public Empty(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x,y);
     }
 
     @Override

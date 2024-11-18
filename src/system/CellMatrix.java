@@ -3,6 +3,7 @@ package system;
 import substances.Empty;
 import substances.Substance;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public enum CellMatrix {
@@ -23,7 +24,7 @@ public enum CellMatrix {
 
     public ArrayList<ArrayList<Substance>> getMatrix() { return matrix; }
 
-    public int[] getSize() { return new int[]{ INSTANCE.x,INSTANCE.y }; }
+    public int[] getSize() { return new int[]{ this.x,this.y }; }
 
     public void setSize(int x, int y) {
         setMatrixSize(x,y);
@@ -68,7 +69,24 @@ public enum CellMatrix {
 
     public void setCell(Substance substance) {
         System.out.println("("+ substance.x +","+ substance.y +") = " +substance);
-        getInstance().matrix.get(substance.y).set(substance.x,substance);
+        matrix.get(substance.y).set(substance.x,substance);
+    }
+
+    public void swapCells(Substance substanceA, Substance substanceB) {
+        Point coordA = new Point(substanceA.getX(),substanceA.getY());
+        Point coordB = new Point(substanceB.getX(),substanceB.getY());
+
+        if (isValidPosition(coordA.x, coordA.y) && isValidPosition(coordB.x, coordB.y) ) {
+            substanceA.setXY(coordB.x, coordB.y); setCell(substanceA);
+
+            substanceB.setXY(coordA.x, coordA.y); setCell(substanceB);
+        }
+    }
+
+    private boolean isValidPosition(int x, int y) {
+        try {
+            this.matrix.get(y).get(x); return true;
+        } catch (IndexOutOfBoundsException e) { return false; }
     }
 
     public void stepAll() {

@@ -10,13 +10,5 @@ public class Main {
         cellMatrix.setSize(5,5);
 
         System.out.println(cellMatrix);
-        cellMatrix.stepAll();
-        System.out.println(cellMatrix);
-
-        cellMatrix.setCell(new Copper(1,0));
-
-        System.out.println(cellMatrix);
-        cellMatrix.stepAll();
-        System.out.println(cellMatrix);
     }
 }
