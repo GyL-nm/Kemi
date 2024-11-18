@@ -10,5 +10,21 @@ public class Main {
         cellMatrix.setSize(5,5);
 
         System.out.println(cellMatrix);
+
+        cellMatrix.fill(Air.class);
+        System.out.println(cellMatrix);
+
+        cellMatrix.setCell(new Copper(2,1));
+        cellMatrix.setCell(new Copper(2,2));
+        System.out.println(cellMatrix);
+
+        cellMatrix.stepAll();
+        System.out.println(cellMatrix);
+
+        cellMatrix.stepAll();
+        System.out.println(cellMatrix);
+
+        cellMatrix.stepAll();
+        System.out.println(cellMatrix);
     }
 }

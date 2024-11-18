@@ -6,24 +6,24 @@ import substances.solid.Solid;
 
 import system.CellMatrix;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+
 
 public abstract class MovableSolid extends Solid {
     public MovableSolid(int x,int y) { super(x,y); }
 
-    public void step(CellMatrix cellMatrix) {
-        Substance[] below = new Substance[]{cellMatrix.getCell(x,y+1),
-                                            cellMatrix.getCell(x-1,y+1),
-                                            cellMatrix.getCell(x+1,y+1)};
-
-        for (Substance belowCell : below) {
-            System.out.println(belowCell);
-            if (belowCell == null) continue;
-
-            if (belowCell.getClass() == Empty.class) {
-                cellMatrix.swapCells(this,belowCell);
-
-                return;
-            }
-        }
+    @Override
+    public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) {
+        ArrayList<Substance> candidates = adjacent.get(2);
+        Collections.swap(candidates, 1, 0);
+        candidates.removeIf(sub -> sub instanceof Solid);
+        return candidates;
     }
+
+    //    @Override
+//    public void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> adjacent) {
+//
+//    }
 }

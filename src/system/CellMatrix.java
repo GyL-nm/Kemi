@@ -43,16 +43,18 @@ public enum CellMatrix {
     }
     private void setXY(int x, int y) { this.x = x; this.y = y; }
 
-    // Left-right, bottom-top traversal of matrix
-    private ArrayList<Substance> getFlatMatrix() {
+    public static ArrayList<Substance> flattenMatrix(ArrayList<ArrayList<Substance>> matrix) {
         ArrayList<Substance> flatMatrix = new ArrayList<>();
         for (int row = matrix.size()-1; row >= 0; row--) {
-            for (int col = 0; col < matrix.get(row).size(); col++) {
-                flatMatrix.add(matrix.get(row).get(col));
-            }
+            flatMatrix.addAll(matrix.get(row));
         }
 
         return flatMatrix;
+    }
+
+    // Left-right, bottom-top traversal of matrix
+    private ArrayList<Substance> getFlatMatrix() {
+        return flattenMatrix(matrix);
     }
 
     public Substance getCell(int x, int y) {
@@ -89,8 +91,18 @@ public enum CellMatrix {
         } catch (IndexOutOfBoundsException e) { return false; }
     }
 
+    public void fill(Class<? extends Substance> fill) {
+        try {
+            for (int row = 0; row < y; row++) {
+                for (int col = 0; col < x; col++) {
+                    matrix.get(row).set(col, fill.getConstructor(int.class, int.class).newInstance(col, row) );
+                }
+            }
+        } catch (Exception ignored) {;}
+    }
+
     public void stepAll() {
-        for (Substance substance : this.getFlatMatrix()) { substance.step(this); }
+        for (Substance substance : this.getFlatMatrix()) { System.out.println(substance.x +","+ substance.y); substance.step(this); }
     }
 
     @Override
