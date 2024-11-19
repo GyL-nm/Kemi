@@ -10,9 +10,8 @@ public abstract class Substance {
     public int x;
     public int y;
 
-    public double mass; // mass of 1m^3 in g
+    public SubstanceProperties properties;
 
-    public double heatTransferFactor;
     public double temperature; // room temp = 23
 
     private java.util.Objects Objects;
@@ -45,7 +44,7 @@ public abstract class Substance {
             if (belowCell == null) continue;
 
             if (belowCell.getClass() == Empty.class
-            || belowCell.mass < mass) {
+            || belowCell.properties.mass < properties.mass) {
                 cellMatrix.swapCells(this,belowCell);
 
                 return;
@@ -61,7 +60,7 @@ public abstract class Substance {
 
         double averageHeatTransfer = CellMatrix.flattenMatrix(adjacent).stream()
                 .filter(java.util.Objects::nonNull)
-                .mapToDouble(substance -> substance.heatTransferFactor)
+                .mapToDouble(substance -> substance.properties.getHeatTransferFactor())
                 .average().getAsDouble();
 
         temperature += ((averageHeatTransfer*(averageHeat-temperature)));

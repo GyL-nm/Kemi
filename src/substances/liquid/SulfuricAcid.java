@@ -1,7 +1,12 @@
 package substances.liquid;
 
+import substances.SubstanceProperties;
+
 public class SulfuricAcid extends Liquid {
-    protected SulfuricAcid(int x, int y) {
+    final SubstanceProperties PROPERTIES = SubstanceProperties.SULFURIC_ACID;
+
+    public SulfuricAcid(int x, int y) {
         super(x, y);
+        properties = PROPERTIES;
     }
 }

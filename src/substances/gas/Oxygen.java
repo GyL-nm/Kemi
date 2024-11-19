@@ -1,8 +1,11 @@
 package substances.gas;
 
+import substances.SubstanceProperties;
+
 public class Oxygen extends Gas {
+    final SubstanceProperties PROPERTIES = SubstanceProperties.OXYGEN;
     public Oxygen(int x, int y) {
         super(x, y);
-        mass = 1429.0;
+        properties = PROPERTIES;
     }
 }

@@ -1,7 +1,12 @@
 package substances.liquid;
 
+import substances.SubstanceProperties;
+
 public class SodiumChloride extends Liquid {
-    protected SodiumChloride(int x, int y) {
+    final SubstanceProperties PROPERTIES = SubstanceProperties.CHLORINE;
+
+    public SodiumChloride(int x, int y) {
         super(x, y);
+        properties = PROPERTIES;
     }
 }

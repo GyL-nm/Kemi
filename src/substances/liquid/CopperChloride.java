@@ -1,7 +1,11 @@
 package substances.liquid;
 
+import substances.SubstanceProperties;
+
 public class CopperChloride extends Liquid {
-    protected CopperChloride(int x, int y) {
+    final SubstanceProperties PROPERTIES = SubstanceProperties.COPPER_CHLORIDE;
+    public CopperChloride(int x, int y) {
         super(x, y);
+        properties = PROPERTIES;
     }
 }

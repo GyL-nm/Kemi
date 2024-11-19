@@ -1,7 +1,12 @@
 package substances.liquid;
 
+import substances.SubstanceProperties;
+
 public class SodiumHydroxide extends Liquid {
-    protected SodiumHydroxide(int x, int y) {
+    final SubstanceProperties PROPERTIES = SubstanceProperties.SODIUM_HYDROXIDE;
+
+    public SodiumHydroxide(int x, int y) {
         super(x, y);
+        properties = PROPERTIES;
     }
 }
