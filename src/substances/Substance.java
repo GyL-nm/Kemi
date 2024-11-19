@@ -1,10 +1,9 @@
 package substances;
 
+import substances.solid.Solid;
 import system.CellMatrix;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public abstract class Substance {
     public int x;
@@ -32,7 +31,7 @@ public abstract class Substance {
         fall(cellMatrix, getFallCandidates(adjacent));
 //        diffuse(cellMatrix, adjacent);
 
-        transferHeat(adjacent);
+        transferHeat(adjacent,cellMatrix);
     }
 
     public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) { return adjacent.get(2); }
@@ -43,8 +42,17 @@ public abstract class Substance {
 //            System.out.println(belowCell);
             if (belowCell == null) continue;
 
-            if (belowCell.getClass() == Empty.class
+            if (belowCell.getClass() == Empty.class // Gravity and density
             || belowCell.properties.mass < properties.mass) {
+                cellMatrix.swapCells(this,belowCell);
+
+                return;
+            }
+
+            if (    !(this instanceof Solid)
+                    && belowCell.getClass() == this.getClass() // Fluids becoming less dense when they heat up
+                    && belowCell.temperature > temperature) {
+
                 cellMatrix.swapCells(this,belowCell);
 
                 return;
@@ -52,7 +60,7 @@ public abstract class Substance {
         }
     }
 
-    public void transferHeat(ArrayList<ArrayList<Substance>> adjacent) {
+    public void transferHeat(ArrayList<ArrayList<Substance>> adjacent, CellMatrix cellMatrix) {
         double averageHeat = CellMatrix.flattenMatrix(adjacent).stream()
                                 .filter(java.util.Objects::nonNull)
                                 .mapToDouble(substance -> substance.temperature)
@@ -63,7 +71,7 @@ public abstract class Substance {
                 .mapToDouble(substance -> substance.properties.getHeatTransferFactor())
                 .average().getAsDouble();
 
-        temperature += ((averageHeatTransfer*(averageHeat-temperature)));
+        temperature += (( averageHeatTransfer*(averageHeat-temperature) ));
     }
 
 //    public abstract void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> diffuseCandidates);

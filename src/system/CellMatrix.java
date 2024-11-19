@@ -70,7 +70,7 @@ public enum CellMatrix {
 //    }
 
     public void setCell(Substance substance) {
-        System.out.println("("+ substance.x +","+ substance.y +") = " +substance);
+//        System.out.println("("+ substance.x +","+ substance.y +") = " +substance);
         matrix.get(substance.y).set(substance.x,substance);
     }
 

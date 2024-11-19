@@ -12,15 +12,20 @@ public class Main {
 
         System.out.println(cellMatrix);
 
-        cellMatrix.fill(Air.class);
+        cellMatrix.fill(Water.class);
         System.out.println(cellMatrix);
 
-        cellMatrix.setCell(new Copper(4,2, 1000));
+        cellMatrix.setCell(new Water(4,2, 120));
         System.out.println(cellMatrix);
 
-        for (int i = 0; i<20; i++) {
+        long startTime = System.nanoTime();
+        for (int i = 0; i<200; i++) {
             cellMatrix.stepAll();
             System.out.println(cellMatrix);
         }
+        long endTime = System.nanoTime();
+
+        long duration = (endTime - startTime)/1000000;
+        System.out.println(duration);
     }
 }

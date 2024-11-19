@@ -1,21 +1,21 @@
-package substances.liquid;
+package substances.gas;
 
 import substances.Substance;
 import substances.SubstanceProperties;
-import substances.gas.Vapour;
+import substances.liquid.Water;
 import system.CellMatrix;
 
 import java.util.ArrayList;
 
-public class Water extends Liquid {
-    public Water(int x, int y) {
+public class Vapour extends Gas {
+    public Vapour(int x, int y) {
         super(x, y);
-        properties = SubstanceProperties.WATER;
+        properties = SubstanceProperties.VAPOUR;
     }
 
-    public Water(int x, int y, double temperature) {
+    public Vapour(int x, int y, double temperature) {
         super(x, y, temperature);
-        properties = SubstanceProperties.WATER;
+        properties = SubstanceProperties.VAPOUR;
     }
 
     @Override
@@ -32,8 +32,8 @@ public class Water extends Liquid {
 
         temperature += ((averageHeatTransfer*(averageHeat-temperature)));
 
-        if (temperature > 100.0) {
-            cellMatrix.swapCells(this, new Vapour(this.x, this.y, temperature));
+        if (temperature <= 100.0) {
+            cellMatrix.swapCells(this, new Water(this.x, this.y, temperature));
         }
     }
 }

@@ -11,6 +11,7 @@ public enum SubstanceProperties {
     CHLORINE(1200.0, 0.0089),
     HYDROGEN(0.08, 0.18),
     OXYGEN(1.43, 0.0263),
+    VAPOUR(0.76, 100),
 
     WATER(1000, 0.6),
     COPPER_CHLORIDE(3390.0, 0.598),
@@ -32,7 +33,7 @@ public enum SubstanceProperties {
     THERMOMETER(Double.POSITIVE_INFINITY, 1.075);
 
     final public double mass;
-    final public double heatTransferFactor;
+    final private double heatTransferFactor;
 
     private SubstanceProperties(double mass, double heatTransferFactor) {
         this.mass = mass;
@@ -40,12 +41,16 @@ public enum SubstanceProperties {
     }
 
     public double getHeatTransferFactor() {
-        return heatTransferFactor /
-                (Arrays.stream(SubstanceProperties.values())
+        double max = Arrays.stream(SubstanceProperties.values())
                 .mapToDouble(prop -> prop.heatTransferFactor)
-                .max().getAsDouble()
-                - Arrays.stream(SubstanceProperties.values())
+                .max().getAsDouble();
+
+        double min = Arrays.stream(SubstanceProperties.values())
                 .mapToDouble(prop -> prop.heatTransferFactor)
-                .min().getAsDouble() );
+                .min().getAsDouble();
+
+        double normalised = (min+heatTransferFactor)/(max-min);
+
+        return normalised*20 > 1 ? 1 : normalised*20;
     }
 }
