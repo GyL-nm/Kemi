@@ -6,12 +6,28 @@ import substances.SubstanceProperties;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 public enum CellMatrix {
 
     INSTANCE(50,50);
+    public CellMatrix getInstance() {
+        return INSTANCE;
+    }
+
+    public static ArrayList<Cell> flattenMatrix(ArrayList<ArrayList<Cell>> matrix) {
+        ArrayList<Cell> flatMatrix = new ArrayList<>();
+        for (int row = matrix.size()-1; row >= 0; row--) {
+            flatMatrix.addAll(matrix.get(row));
+        }
+
+        return flatMatrix;
+    }
 
     private ArrayList<ArrayList<Cell>> matrix;
+
+    public BitSet steppedBuffer;
+
     private int x;
     private int y;
 
@@ -19,15 +35,13 @@ public enum CellMatrix {
         this.setSize(x,y);
     }
 
-    public CellMatrix getInstance() {
-        return INSTANCE;
-    }
-
     public int[] getSize() { return new int[]{ this.x,this.y }; }
 
     public void setSize(int x, int y) {
         setMatrixSize(x,y);
         setXY(x, y);
+
+        steppedBuffer = new BitSet(x*y);
     }
 
     private void setMatrixSize(int x, int y) {
@@ -42,15 +56,6 @@ public enum CellMatrix {
     }
     private void setXY(int x, int y) { this.x = x; this.y = y; }
 
-    public static ArrayList<Cell> flattenMatrix(ArrayList<ArrayList<Cell>> matrix) {
-        ArrayList<Cell> flatMatrix = new ArrayList<>();
-        for (int row = matrix.size()-1; row >= 0; row--) {
-            flatMatrix.addAll(matrix.get(row));
-        }
-
-        return flatMatrix;
-    }
-
     // Left-right, bottom-top traversal of matrix
     private ArrayList<Cell> getFlatMatrix() {
         return flattenMatrix(matrix);
@@ -63,6 +68,12 @@ public enum CellMatrix {
             return null;
         }
     }
+
+    public int steppedBitIndex(int x, int y) { return x*y+y; }
+    public boolean getCellSteppedBit(int x, int y) { return steppedBuffer.get( steppedBitIndex(x, y) ); }
+    public void flipCellSteppedBit(int x, int y) { steppedBuffer.flip( steppedBitIndex(x, y) ); }
+
+    public void flipAllSteppedBits() { steppedBuffer.flip(0,steppedBuffer.length()-1); }
 
 //    public void setCell(Cell cell, int x, int y) {
 //        matrix.get(y).set(x,cell);
@@ -100,7 +111,10 @@ public enum CellMatrix {
     }
 
     public void stepAll() {
-        for (Cell cell : this.getFlatMatrix()) { cell.step(this); }
+        flipAllSteppedBits();
+        for (Cell cell : this.getFlatMatrix()) {
+            cell.step(this);
+        }
     }
 
     @Override
