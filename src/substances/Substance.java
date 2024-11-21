@@ -4,6 +4,9 @@ import substances.solid.Solid;
 import system.CellMatrix;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.NoSuchElementException;
+import java.util.Random;
 
 public abstract class Substance {
     public int x;
@@ -15,7 +18,7 @@ public abstract class Substance {
 
     private java.util.Objects Objects;
 
-    public Substance(int x, int y) { this.setXY(x,y); temperature = 23; }
+    public Substance(int x, int y) { this.setXY(x,y); temperature = 23.0; }
     public Substance(int x, int y, double temperature) { this.setXY(x,y); this.temperature = temperature; }
 
     public void step(CellMatrix cellMatrix) {
@@ -28,8 +31,9 @@ public abstract class Substance {
             }
             adjacent.add(newRow);
         }
+
+        settle(cellMatrix, getSettleCandidates(adjacent));
         fall(cellMatrix, getFallCandidates(adjacent));
-//        diffuse(cellMatrix, adjacent);
 
         transferHeat(adjacent,cellMatrix);
     }
@@ -37,9 +41,7 @@ public abstract class Substance {
     public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) { return adjacent.get(2); }
 
     private void fall(CellMatrix cellMatrix, ArrayList<Substance> fallCandidates) {
-//        System.out.println(fallCandidates);
         for (Substance belowCell : fallCandidates) {
-//            System.out.println(belowCell);
             if (belowCell == null) continue;
 
             if (belowCell.getClass() == Empty.class // Gravity and density
@@ -60,6 +62,9 @@ public abstract class Substance {
         }
     }
 
+    public ArrayList<Substance> getSettleCandidates(ArrayList<ArrayList<Substance>> adjacent) { return null; }
+    protected void settle(CellMatrix cellMatrix, ArrayList<Substance> settleCandidates) {}
+
     public void transferHeat(ArrayList<ArrayList<Substance>> adjacent, CellMatrix cellMatrix) {
         double averageHeat = CellMatrix.flattenMatrix(adjacent).stream()
                                 .filter(java.util.Objects::nonNull)
@@ -71,7 +76,8 @@ public abstract class Substance {
                 .mapToDouble(substance -> substance.properties.getHeatTransferFactor())
                 .average().getAsDouble();
 
-        temperature += (( averageHeatTransfer*(averageHeat-temperature) ));
+
+        this.temperature += averageHeatTransfer*(averageHeat-this.temperature);
     }
 
 //    public abstract void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> diffuseCandidates);

@@ -8,14 +8,16 @@ import system.CellMatrix;
 import java.util.ArrayList;
 
 public class Vapour extends Gas {
+    final private SubstanceProperties PROPERTIES = SubstanceProperties.OXYGEN;
+
     public Vapour(int x, int y) {
         super(x, y);
-        properties = SubstanceProperties.VAPOUR;
+        properties = PROPERTIES;
     }
 
     public Vapour(int x, int y, double temperature) {
         super(x, y, temperature);
-        properties = SubstanceProperties.VAPOUR;
+        properties = PROPERTIES;
     }
 
     @Override

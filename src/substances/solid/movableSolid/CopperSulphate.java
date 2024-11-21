@@ -9,4 +9,9 @@ public class CopperSulphate extends MovableSolid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public CopperSulphate(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

@@ -9,4 +9,9 @@ public class Stirrer extends StaticSolid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public Stirrer(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

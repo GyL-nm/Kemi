@@ -9,4 +9,9 @@ public class Electrode extends StaticSolid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public Electrode(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

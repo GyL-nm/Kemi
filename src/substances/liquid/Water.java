@@ -8,14 +8,15 @@ import system.CellMatrix;
 import java.util.ArrayList;
 
 public class Water extends Liquid {
+    final private SubstanceProperties PROPERTIES = SubstanceProperties.WATER;
     public Water(int x, int y) {
         super(x, y);
-        properties = SubstanceProperties.WATER;
+        properties = PROPERTIES;
     }
 
     public Water(int x, int y, double temperature) {
         super(x, y, temperature);
-        properties = SubstanceProperties.WATER;
+        properties = PROPERTIES;
     }
 
     @Override

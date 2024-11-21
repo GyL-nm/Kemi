@@ -9,4 +9,9 @@ public class SodiumChloride extends Liquid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public SodiumChloride(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

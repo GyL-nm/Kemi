@@ -10,4 +10,9 @@ public class Beaker extends StaticSolid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public Beaker(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

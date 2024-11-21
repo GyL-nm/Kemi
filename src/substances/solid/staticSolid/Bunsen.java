@@ -9,4 +9,9 @@ public class Bunsen extends StaticSolid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public Bunsen(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

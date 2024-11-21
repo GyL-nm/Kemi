@@ -9,4 +9,9 @@ public class Thermometer extends StaticSolid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public Thermometer(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

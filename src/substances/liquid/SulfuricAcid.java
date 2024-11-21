@@ -9,4 +9,9 @@ public class SulfuricAcid extends Liquid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public SulfuricAcid(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

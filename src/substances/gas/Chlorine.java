@@ -3,7 +3,7 @@ package substances.gas;
 import substances.SubstanceProperties;
 
 public class Chlorine extends Gas {
-    final SubstanceProperties PROPERTIES = SubstanceProperties.CHLORINE;
+    final private SubstanceProperties PROPERTIES = SubstanceProperties.CHLORINE;
     public Chlorine(int x, int y) {
         super(x,y);
         properties = PROPERTIES;

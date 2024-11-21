@@ -41,10 +41,9 @@ public enum SubstanceProperties {
     THERMOMETER(Double.POSITIVE_INFINITY, 1.075, Thermometer.class);
 
     final public double mass;
-    final private double heatTransferFactor;
     final private Class<? extends Substance> substanceReference;
 
-    final public SubstanceReferences substanceReferences = new SubstanceReferences();
+    final public double heatTransferFactor;
 
     private SubstanceProperties(double mass, double heatTransferFactor, Class<? extends Substance> substanceReference) {
         this.mass = mass;
@@ -54,15 +53,15 @@ public enum SubstanceProperties {
     }
 
     public double getHeatTransferFactor() {
-        double max = Arrays.stream(SubstanceProperties.values())
-                .mapToDouble(prop -> prop.heatTransferFactor)
-                .max().getAsDouble();
-
-        double min = Arrays.stream(SubstanceProperties.values())
+        double min = Arrays.stream(values())
                 .mapToDouble(prop -> prop.heatTransferFactor)
                 .min().getAsDouble();
 
-        double normalised = (min+heatTransferFactor)/(max-min);
+        double max = Arrays.stream(values())
+                .mapToDouble(prop -> prop.heatTransferFactor)
+                .max().getAsDouble();
+
+        double normalised = (min + heatTransferFactor)/ (max-min);
 
         return normalised*20 > 1 ? 1 : normalised*20;
     }

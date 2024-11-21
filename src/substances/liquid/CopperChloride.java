@@ -8,4 +8,9 @@ public class CopperChloride extends Liquid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public CopperChloride(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

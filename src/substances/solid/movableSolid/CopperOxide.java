@@ -9,4 +9,9 @@ public class CopperOxide extends MovableSolid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public CopperOxide(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }

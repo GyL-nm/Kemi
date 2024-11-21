@@ -8,4 +8,9 @@ public class HydrochloricAcid extends Liquid {
         super(x, y);
         properties = PROPERTIES;
     }
+
+    public HydrochloricAcid(int x, int y, double temperature) {
+        super(x,y, temperature);
+        properties = PROPERTIES;
+    }
 }
