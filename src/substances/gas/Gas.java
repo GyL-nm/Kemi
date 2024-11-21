@@ -7,13 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public abstract class Gas extends Substance {
-    public Gas(int x, int y) {
-        super(x, y);
+    public Gas() {
+
     }
 
-    public Gas(int x, int y, double temperature) {
-        super(x, y, temperature);
-    }
 
 //    @Override
 //    public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) {

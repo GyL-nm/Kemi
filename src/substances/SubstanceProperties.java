@@ -2,52 +2,59 @@ package substances;
 
 import substances.gas.*;
 import substances.liquid.*;
-import substances.solid.movableSolid.Copper;
-import substances.solid.movableSolid.CopperOxide;
+import substances.solid.movableSolid.*;
 import substances.solid.staticSolid.*;
 
+import java.awt.*;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 public enum SubstanceProperties {
-    EMPTY(0,0, Empty.class),
+    EMPTY(0, 0, Empty.class, new Color(255, 255, 255, 255)),
 
-    AIR(1200.0, 0.0089,Air.class),
-    CHLORINE(1200.0, 0.0089, Chlorine.class),
-    HYDROGEN(0.08, 0.18,Hydrogen.class),
-    OXYGEN(1.43, 0.0263, Oxygen.class),
-    VAPOUR(0.76, 100,Vapour.class),
+    AIR(0.0089, 1200.0, Air.class, new Color(255, 255, 255, 255)),
+    CHLORINE(0.0089, 1200.0, Chlorine.class, new Color(255, 255, 255, 255)),
+    HYDROGEN(0.18, 0.08, Hydrogen.class, new Color(255, 255, 255, 255)),
+    OXYGEN(0.0263, 1.43, Oxygen.class, new Color(255, 255, 255, 255)),
+    VAPOUR(100, 0.76, Vapour.class, new Color(255, 255, 255, 255)),
 
-    WATER(1000, 0.6,Water.class),
-    COPPER_CHLORIDE(3390.0, 0.598,CopperChloride.class),
-    COPPER_SULPHATE_LIQUID(3600.0, 0.085, substances.liquid.CopperSulphate.class),
-    HYDROCHLORIC_ACID(1.64, 0.520, HydrochloricAcid.class),
-    SODIUM_CHLORIDE(2170.0, 0.6, SodiumChloride.class),
-    SODIUM_HYDROXIDE(2130.0, 0.71, SodiumHydroxide.class),
-    SODIUM_SULPHATE(2671.0, 0.131, SodiumSulphate.class),
-    SULFURIC_ACID(1826.7, 0.43, SulfuricAcid.class),
+    WATER(0.6, 1000, Water.class, new Color(255, 255, 255, 255)),
+    COPPER_CHLORIDE_LIQUID(0.598, 3390.0, substances.liquid.CopperChloride.class, new Color(255, 255, 255, 255)),
+    COPPER_SULPHATE_LIQUID(0.085, 3600.0, substances.liquid.CopperSulphate.class, new Color(255, 255, 255, 255)),
+    HYDROCHLORIC_ACID_LIQUID(0.520, 1.64, substances.liquid.HydrochloricAcid.class, new Color(255, 255, 255, 255)),
+    SODIUM_CHLORIDE_LIQUID(0.6, 2170.0, substances.liquid.SodiumChloride.class, new Color(255, 255, 255, 255)),
+    SODIUM_HYDROXIDE_LIQUID(0.71, 2130.0, substances.liquid.SodiumHydroxide.class, new Color(255, 255, 255, 255)),
+    SODIUM_SULPHATE_LIQUID(0.131, 2671.0, substances.liquid.SodiumSulphate.class, new Color(255, 255, 255, 255)),
+    SULFURIC_ACID(0.43, 1826.7, SulfuricAcid.class, new Color(255, 255, 255, 255)),
 
-    COPPER(8940.0, 398.0, Copper.class),
-    COPPER_OXIDE(6000.0, 33.0, CopperOxide.class),
-    COPPER_SULPHATE_SOLID(3600.0, 0.085, substances.solid.movableSolid.CopperSulphate.class),
+    ICE(2.22, 919, Ice.class, new Color(255, 255, 255, 255)),
+    COPPER_CHLORIDE_SOLID(0.598, 3390.0, CopperChloride.class, new Color(255, 255, 255, 255)),
+    COPPER_SULPHATE_SOLID(0.085, 3600.0, substances.solid.movableSolid.CopperSulphate.class, new Color(255, 255, 255, 255)),
+    HYDROCHLORIC_ACID_SOLID(0.520, 1.64, substances.solid.movableSolid.HydrochloricAcid.class, new Color(255, 255, 255, 255)),
+    SODIUM_CHLORIDE_SOLID(0.6, 2170.0, substances.solid.movableSolid.SodiumChloride.class, new Color(255, 255, 255, 255)),
+    SODIUM_HYDROXIDE_SOLID(0.71, 2130.0, substances.solid.movableSolid.SodiumHydroxide.class, new Color(255, 255, 255, 255)),
+    SODIUM_SULPHATE_SOLID(0.131, 2671.0, substances.solid.movableSolid.SodiumSulphate.class, new Color(255, 255, 255, 255)),
+    COPPER(398.0, 8940.0, Copper.class, new Color(255, 255, 255, 255)),
+    COPPER_OXIDE(33.0, 6000.0, CopperOxide.class, new Color(255, 255, 255, 255)),
+    COPPER_HYDROXIDE_SOLID(33.0, 3360.0, CopperHydroxide.class, new Color(255, 255, 255, 255)),
 
-    BEAKER(Double.POSITIVE_INFINITY, 1.075, Beaker.class),
-    BUNSEN(Double.POSITIVE_INFINITY, 52.0, Bunsen.class),
-    ELECTRODE(Double.POSITIVE_INFINITY, 1000.0, Electrode.class),
-    STIRRER(Double.POSITIVE_INFINITY, 1.075, Stirrer.class),
-    THERMOMETER(Double.POSITIVE_INFINITY, 1.075, Thermometer.class);
+    BEAKER(1.075, Double.POSITIVE_INFINITY, Beaker.class, new Color(255, 255, 255, 255)),
+    BUNSEN(52.0, Double.POSITIVE_INFINITY, Bunsen.class, new Color(255, 255, 255, 255)),
+    ELECTRODE(1000.0, Double.POSITIVE_INFINITY, Electrode.class, new Color(255, 255, 255, 255)),
+    STIRRER(1.075, Double.POSITIVE_INFINITY, Stirrer.class, new Color(255, 255, 255, 255)),
+    THERMOMETER(1.075, Double.POSITIVE_INFINITY, Thermometer.class, new Color(255, 255, 255, 255));
 
     final public double mass;
-    final private Class<? extends Substance> substanceReference;
-
     final public double heatTransferFactor;
 
-    private SubstanceProperties(double mass, double heatTransferFactor, Class<? extends Substance> substanceReference) {
+    final public Color baseColour;
+
+    final private Class<? extends Substance> substanceReference;
+
+    private SubstanceProperties(double heatTransferFactor, double mass, Class<? extends Substance> substanceReference, Color baseColour) {
         this.mass = mass;
         this.heatTransferFactor = heatTransferFactor;
+
+        this.baseColour = baseColour;
 
         this.substanceReference = substanceReference;
     }
@@ -61,9 +68,7 @@ public enum SubstanceProperties {
                 .mapToDouble(prop -> prop.heatTransferFactor)
                 .max().getAsDouble();
 
-        double normalised = (min + heatTransferFactor)/ (max-min);
-
-        return normalised*20 > 1 ? 1 : normalised*20;
+        return (min + heatTransferFactor)/ (max-min);
     }
 
     public Class<? extends Substance> getSubstanceReference() { return substanceReference; }

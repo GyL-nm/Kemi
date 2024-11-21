@@ -18,7 +18,7 @@ WATER
 	null null freezing,exothermic ICE 0 > temp
 
 	COPPER_CHLORIDE_SOLID null dissolution,exothermic COPPER_CHLORIDE_LIQUID
-	COPPER SULPHATE_SOLID null dissolution,exothermic COPPER_SULPHATE_LIQUID
+	COPPER_SULPHATE_SOLID null dissolution,exothermic COPPER_SULPHATE_LIQUID
 	HYDROCHLORIC_ACID_SOLID null dissolution,exothermic HYDROCHLORIC_ACID_LIQUID
 	SODIUM_CHLORIDE_SOLID null dissolution,endothermic SODIUM_CHLORIDE_LIQUID
 	SODIUM_HYDROXIDE_SOLID null dissolution,exothermic SODIUM_HYDROXIDE_LIQUID

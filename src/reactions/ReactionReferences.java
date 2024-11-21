@@ -1,7 +1,6 @@
 package reactions;
 
 import substances.SubstanceProperties;
-import substances.SubstanceReferences;
 
 import java.util.HashMap;
 
@@ -14,7 +13,7 @@ public class ReactionReferences extends HashMap<ReactionPair, ResultInfo> {
                 new ResultInfo(
                         new ReactionType[]{ ReactionType.REDOX,
                                             ReactionType.SYNTHESIS},
-                        new SubstanceProperties[]{SubstanceProperties.HYDROCHLORIC_ACID }));
+                        new SubstanceProperties[]{SubstanceProperties.HYDROCHLORIC_ACID_LIQUID}));
 
         this.put(new ReactionPair(  SubstanceProperties.HYDROGEN,
                                     SubstanceProperties.OXYGEN, null),

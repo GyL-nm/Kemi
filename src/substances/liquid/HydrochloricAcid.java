@@ -3,14 +3,8 @@ package substances.liquid;
 import substances.SubstanceProperties;
 
 public class HydrochloricAcid extends Liquid {
-    final SubstanceProperties PROPERTIES = SubstanceProperties.HYDROCHLORIC_ACID;
-    public HydrochloricAcid(int x, int y) {
-        super(x, y);
-        properties = PROPERTIES;
-    }
-
-    public HydrochloricAcid(int x, int y, double temperature) {
-        super(x,y, temperature);
+    final SubstanceProperties PROPERTIES = SubstanceProperties.HYDROCHLORIC_ACID_LIQUID;
+    public HydrochloricAcid() {
         properties = PROPERTIES;
     }
 }

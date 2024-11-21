@@ -3,14 +3,8 @@ package substances.liquid;
 import substances.SubstanceProperties;
 
 public class CopperChloride extends Liquid {
-    final SubstanceProperties PROPERTIES = SubstanceProperties.COPPER_CHLORIDE;
-    public CopperChloride(int x, int y) {
-        super(x, y);
-        properties = PROPERTIES;
-    }
-
-    public CopperChloride(int x, int y, double temperature) {
-        super(x,y, temperature);
+    final SubstanceProperties PROPERTIES = SubstanceProperties.COPPER_CHLORIDE_LIQUID;
+    public CopperChloride() {
         properties = PROPERTIES;
     }
 }
