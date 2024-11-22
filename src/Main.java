@@ -31,6 +31,7 @@ public class Main {
                 String substanceInput = input.nextLine().toUpperCase().replaceAll(" ", "_");
 
                 int x, y;
+                double temp;
 
                 while (true) {
                     try {
@@ -40,35 +41,36 @@ public class Main {
                         System.out.print("y >>");
                         y = Integer.parseInt(input.nextLine());
 
-                    } catch (Exception ignored) {
-                        System.out.println("x,y must be int values");
+                        System.out.print("temperature >>");
+                        temp = Double.parseDouble(input.nextLine());
+
+                        try {
+                            cellMatrix.setCell(
+                                    new Cell(SubstanceProperties.valueOf(substanceInput)
+                                            .getSubstanceReference()
+                                            .getConstructor().newInstance(), x,y,temp));
+
+                            break;
+                        } catch (InstantiationException | NoSuchMethodException e) {
+                            System.out.println("Invalid substance.");
+                        } catch (InvocationTargetException e) {
+                            throw new RuntimeException(e);
+                        } catch (IllegalAccessException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                        System.out.println("x,y must be int values within range");
                         continue;
                     }
 
-                    try {
-                        cellMatrix.setCell(
-                                new Cell(SubstanceProperties.valueOf(substanceInput)
-                                .getSubstanceReference()
-                                .getConstructor().newInstance(), x,y,23.0));
 
-                        break;
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    } catch (InstantiationException e) {
-                        throw new RuntimeException(e);
-                    } catch (IllegalAccessException e) {
-                        System.out.println("Invalid substance");
-                    } catch (NoSuchMethodException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
             }
 
             if (inputString.equals("f")) {
                 System.out.print("Substance >>");
                 String substanceInput = input.nextLine().toUpperCase().replaceAll(" ", "_");
-
-                int x, y;
 
                 while (true) {
                     try {

@@ -44,7 +44,7 @@ public enum SubstanceProperties {
     THERMOMETER(1.075, Double.POSITIVE_INFINITY, Thermometer.class, new Color(255, 255, 255, 255));
 
     final public double mass;
-    final public double heatTransferFactor;
+    final private double heatTransferFactor;
 
     final public Color baseColour;
 

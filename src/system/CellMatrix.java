@@ -42,6 +42,7 @@ public enum CellMatrix {
         setXY(x, y);
 
         steppedBuffer = new BitSet(x*y);
+        steppedBuffer.set(0, x*y);
     }
 
     private void setMatrixSize(int x, int y) {
@@ -111,7 +112,7 @@ public enum CellMatrix {
     }
 
     public void stepAll() {
-        flipAllSteppedBits();
+        steppedBuffer.clear();
         for (Cell cell : this.getFlatMatrix()) {
             cell.step(this);
         }

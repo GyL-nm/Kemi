@@ -1,6 +1,7 @@
 package substances.gas;
 
 import substances.Substance;
+import system.Cell;
 import system.CellMatrix;
 
 import java.util.ArrayList;
@@ -11,6 +12,11 @@ public abstract class Gas extends Substance {
 
     }
 
+    @Override
+    public ArrayList<Cell> getFallCandidates(ArrayList<ArrayList<Cell>> adjacent) {
+        Collections.swap(adjacent.get(2), 0, 1);
+        return adjacent.get(2);
+    }
 
 //    @Override
 //    public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) {

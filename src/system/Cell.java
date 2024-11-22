@@ -5,6 +5,7 @@ import substances.Substance;
 import substances.solid.Solid;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Cell {
     int x;
@@ -22,14 +23,10 @@ public class Cell {
     }
 
     public void step(CellMatrix cellMatrix) {
-        if ( cellMatrix.getCellSteppedBit(x,y) ) return;
-        cellMatrix.flipCellSteppedBit(x,y);
-
         ArrayList<ArrayList<Cell>> adjacent = getAdjacentCells(cellMatrix);
+        exchangeHeat(adjacent);
 
         fall(cellMatrix, substance.getFallCandidates(adjacent));
-
-        exchangeHeat(cellMatrix,adjacent);
     }
 
     public ArrayList<ArrayList<Cell>> getAdjacentCells(CellMatrix cellMatrix) {
@@ -47,13 +44,31 @@ public class Cell {
     }
 
     private void fall(CellMatrix cellMatrix, ArrayList<Cell> fallCandidates) {
+        Random jitter = new Random();
+
         for (Cell belowCell : fallCandidates) {
             if (belowCell == null) continue;
-            if ( cellMatrix.getCellSteppedBit(belowCell.x,belowCell.y) ) return;
+            if ( cellMatrix.getCellSteppedBit(belowCell.x,belowCell.y) ) continue;
 
             if (belowCell.substance instanceof Empty // Gravity and density
                     || belowCell.substance.properties.mass < substance.properties.mass) {
-                cellMatrix.swapCells(this,belowCell);
+                if (!(belowCell.x == x && belowCell.y == y-1)) {
+                    if (jitter.nextInt(6) == 1) {
+                        cellMatrix.swapCells(this, belowCell);
+
+                        cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x,y));
+                        cellMatrix.steppedBuffer.set( cellMatrix.steppedBitIndex(belowCell.x, belowCell.y) );
+                    }
+                } else {
+                    if (jitter.nextInt(2) == 1) {
+                        cellMatrix.swapCells(this, belowCell);
+
+                        cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
+                        cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(belowCell.x, belowCell.y));
+                    }
+                }
+
+
 
                 return;
             }
@@ -72,16 +87,19 @@ public class Cell {
     public ArrayList<Cell> getSettleCandidates(ArrayList<ArrayList<Cell>> adjacent) { return null; }
     protected void settle(CellMatrix cellMatrix, ArrayList<Cell> settleCandidates) {}
 
-    public void exchangeHeat(CellMatrix cellMatrix, ArrayList<ArrayList<Cell>> adjacent) {
+    public void exchangeHeat(ArrayList<ArrayList<Cell>> adjacent) {
+        double totalHeatExchanged = 0;
         for (ArrayList<Cell> row : adjacent) {
             for (Cell cell : row) {
-                if (cell == null) continue;
+                if (cell == null || cell.substance == substance) continue;
 
-                double heatExchanged = (cell.temperature - temperature) * cell.substance.properties.heatTransferFactor;
+                double heatExchanged = (cell.temperature - temperature) * cell.substance.properties.getHeatTransferFactor() * substance.properties.getHeatTransferFactor() ;
                 cell.temperature -= heatExchanged;
-                temperature += heatExchanged;
+
+                totalHeatExchanged += heatExchanged;
             }
         }
+        temperature += totalHeatExchanged;
     }
 
     public Cell setXY(int x, int y) { this.x = x; this.y = y; return this; }
