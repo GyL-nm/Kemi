@@ -21,59 +21,60 @@ public class Main {
             System.out.print("[s] step\n" +
                     "[a] setCell\n" +
                     "[f] fill\n" +
-                    "[q] quit >>");
+                    "[q] quit >> ");
 
             String inputString = input.nextLine();
 
             if (inputString.equals("q")) break;
             if (inputString.equals("a")) {
-                System.out.print("Substance >>");
-                String substanceInput = input.nextLine().toUpperCase().replaceAll(" ", "_");
-
                 int x, y;
                 double temp;
 
                 while (true) {
                     try {
-                        System.out.print("x >>");
-                        x = Integer.parseInt(input.nextLine());
-
-                        System.out.print("y >>");
-                        y = Integer.parseInt(input.nextLine());
-
-                        System.out.print("temperature >>");
-                        temp = Double.parseDouble(input.nextLine());
+                        System.out.print("Substance >> ");
+                        String substanceInput = input.nextLine().toUpperCase().replaceAll(" ", "_");
+                        SubstanceProperties.valueOf(substanceInput);
 
                         try {
-                            cellMatrix.setCell(
-                                    new Cell(SubstanceProperties.valueOf(substanceInput)
-                                            .getSubstanceReference()
-                                            .getConstructor().newInstance(), x,y,temp));
+                            System.out.print("x >> ");
+                            x = Integer.parseInt(input.nextLine());
 
-                            break;
-                        } catch (InstantiationException | NoSuchMethodException e) {
-                            System.out.println("Invalid substance.");
-                        } catch (InvocationTargetException e) {
-                            throw new RuntimeException(e);
-                        } catch (IllegalAccessException e) {
-                            throw new RuntimeException(e);
+                            System.out.print("y >> ");
+                            y = Integer.parseInt(input.nextLine());
+
+                            System.out.print("temperature >> ");
+                            temp = Double.parseDouble(input.nextLine());
+
+                        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                            System.out.println("x,y must be int values within range");
+                            continue;
                         }
 
-                    } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                        System.out.println("x,y must be int values within range");
-                        continue;
+
+                        cellMatrix.setCell(
+                                new Cell(SubstanceProperties.valueOf(substanceInput)
+                                        .getSubstanceReference()
+                                        .getConstructor().newInstance(), x,y,temp));
+
+                        break;
+
+                    } catch (InstantiationException | IllegalArgumentException | NoSuchMethodException e) {
+                        System.out.println("Invalid substance.");
+                    } catch (InvocationTargetException | IllegalAccessException e) {
+                        throw new RuntimeException(e);
                     }
-
-
                 }
             }
 
             if (inputString.equals("f")) {
-                System.out.print("Substance >>");
-                String substanceInput = input.nextLine().toUpperCase().replaceAll(" ", "_");
+
 
                 while (true) {
                     try {
+                        System.out.print("Substance >> ");
+                        String substanceInput = input.nextLine().toUpperCase().replaceAll(" ", "_");
+
                         cellMatrix.fill(SubstanceProperties.valueOf(substanceInput).getSubstanceReference());
 
                         break;
@@ -91,6 +92,8 @@ public class Main {
                         System.out.print("Step count >>");
                         stepCount = Integer.parseInt(input.nextLine());
 
+                        if (stepCount <= 0) throw new NumberFormatException();
+
                         System.out.println(cellMatrix);
 
                         long startTime = System.nanoTime();
@@ -105,8 +108,10 @@ public class Main {
                         System.out.println(stepCount + " steps in " + duration + "ms");
                         break;
 
-                    } catch (NumberFormatException ignored) {
+                    } catch (NumberFormatException e) {
                         System.out.println("step count must be a positive int value");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Invalid substance.");
                     }
 
 
