@@ -89,7 +89,7 @@ public class Main {
 
                 while (true) {
                     try {
-                        System.out.print("Step count >>");
+                        System.out.print("Step count >> ");
                         stepCount = Integer.parseInt(input.nextLine());
 
                         if (stepCount <= 0) throw new NumberFormatException();
