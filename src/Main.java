@@ -94,12 +94,13 @@ public class Main {
 
                         if (stepCount <= 0) throw new NumberFormatException();
 
+                        System.out.println("Step 0");
                         System.out.println(cellMatrix);
 
                         long startTime = System.nanoTime();
                         for (int i = 0; i < stepCount; i++) {
                             cellMatrix.stepAll();
-                            System.out.println("Step " + i);
+                            System.out.println("Step " + i+1);
                             System.out.println(cellMatrix);
                         }
                         long endTime = System.nanoTime();

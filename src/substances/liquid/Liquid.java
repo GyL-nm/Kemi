@@ -17,9 +17,13 @@ public abstract class Liquid extends Substance {
     protected Liquid() { }
 
     @Override
-    public ArrayList<Cell> getFallCandidates(ArrayList<ArrayList<Cell>> adjacent) {
-        Collections.swap(adjacent.get(2), 0, 1);
-        return adjacent.get(2);
+    public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
+        ArrayList<Cell> moveCandidates = new ArrayList<>();
+        moveCandidates.add(adjacent.get(2).get(1)); // immediate below
+        moveCandidates.add(adjacent.get(1).get(0)); // immediate left
+        moveCandidates.add(adjacent.get(1).get(2)); // immediate right
+
+        return moveCandidates;
     }
 
     protected boolean canWander(Cell target) {

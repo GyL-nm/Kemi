@@ -11,7 +11,7 @@ public abstract class Solid extends Substance {
     protected Solid() {  }
 
     @Override
-    public ArrayList<Cell> getFallCandidates(ArrayList<ArrayList<Cell>> adjacent) {
+    public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
         return CellMatrix.flattenMatrix(adjacent);
     }
 }

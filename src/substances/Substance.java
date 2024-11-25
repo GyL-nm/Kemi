@@ -1,6 +1,6 @@
 package substances;
 
-import substances.solid.Solid;
+import reactions.Reaction;
 import system.Cell;
 import system.CellMatrix;
 
@@ -13,9 +13,13 @@ public abstract class Substance {
 
     public Substance() {}
 
-    public ArrayList<Cell> getFallCandidates(ArrayList<ArrayList<Cell>> adjacent) {
+    public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
         return CellMatrix.flattenMatrix(adjacent);
     }
+
+    public ArrayList<Cell> getReactionCandidates(ArrayList<ArrayList<Cell>> adjacent) { return CellMatrix.flattenMatrix(adjacent); }
+
+    public ArrayList<Reaction> reactions = new ArrayList<>();
 
 //    public abstract void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> diffuseCandidates);
 

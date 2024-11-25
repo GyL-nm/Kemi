@@ -13,13 +13,13 @@ public abstract class Gas extends Substance {
     }
 
     @Override
-    public ArrayList<Cell> getFallCandidates(ArrayList<ArrayList<Cell>> adjacent) {
+    public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
         Collections.swap(adjacent.get(2), 0, 1);
         return adjacent.get(2);
     }
 
 //    @Override
-//    public ArrayList<Substance> getFallCandidates(ArrayList<ArrayList<Substance>> adjacent) {
+//    public ArrayList<Substance> getMoveCandidates(ArrayList<ArrayList<Substance>> adjacent) {
 //        ArrayList<Substance> candidates = new ArrayList<>();
 //        candidates.add(adjacent.get(2).get(1));
 //        return candidates;

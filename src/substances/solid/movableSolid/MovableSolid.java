@@ -16,13 +16,8 @@ public abstract class MovableSolid extends Solid {
     public MovableSolid() { }
 
     @Override
-    public ArrayList<Cell> getFallCandidates(ArrayList<ArrayList<Cell>> adjacent) {
-        ArrayList<Cell> candidates = adjacent.get(2);
-        Collections.swap(candidates, 1, 0);
-        candidates.removeAll(Collections.singleton(null));
-        candidates.removeIf(cell -> cell.substance instanceof Solid);
-
-        return candidates;
+    public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
+        return new ArrayList<>();
     }
 
     //    @Override

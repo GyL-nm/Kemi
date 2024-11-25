@@ -104,7 +104,7 @@ public enum CellMatrix {
         try {
             for (int row = 0; row < y; row++) {
                 for (int col = 0; col < x; col++) {
-                    matrix.get(row).set(col, new Cell(fill.getConstructor().newInstance(),col,row,23));
+                    matrix.get(row).set(col, Cell.newCellOfType(fill,col,row,23));
                 }
             }
         } catch (Exception ignored) {

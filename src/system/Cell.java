@@ -1,10 +1,14 @@
 package system;
 
+import reactions.Reaction;
+import reactions.ReactionCondition;
 import substances.Empty;
 import substances.Substance;
-import substances.solid.Solid;
+import substances.solid.staticSolid.StaticSolid;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Cell {
@@ -14,6 +18,12 @@ public class Cell {
     public double temperature; // room temp = 23
 
     public Substance substance;
+
+    public static Cell newCellOfType(Class<? extends Substance> type, int x, int y, double temp) {
+        try {
+            return new Cell(type.getConstructor().newInstance(),x,y,temp);
+        } catch (Exception ignored) { return null; }
+    }
 
     public Cell(Substance substance, int x, int y, double temperature) {
         this.substance = substance;
@@ -26,7 +36,9 @@ public class Cell {
         ArrayList<ArrayList<Cell>> adjacent = getAdjacentCells(cellMatrix);
         exchangeHeat(adjacent);
 
-        fall(cellMatrix, substance.getFallCandidates(adjacent));
+        move(cellMatrix, substance.getMoveCandidates(adjacent));
+
+        react(cellMatrix, CellMatrix.flattenMatrix(adjacent));
     }
 
     public ArrayList<ArrayList<Cell>> getAdjacentCells(CellMatrix cellMatrix) {
@@ -43,31 +55,46 @@ public class Cell {
         return adjacent;
     }
 
-    private void fall(CellMatrix cellMatrix, ArrayList<Cell> fallCandidates) {
+    private void move(CellMatrix cellMatrix, ArrayList<Cell> moveCandidates) {
         Random jitter = new Random();
 
-        for (Cell belowCell : fallCandidates) {
-            if (belowCell == null) continue;
-            if ( cellMatrix.getCellSteppedBit(belowCell.x,belowCell.y) ) continue;
+        for (Cell moveCandidate : moveCandidates) {
+            if (moveCandidate == null) continue;
+            if (moveCandidate.substance instanceof StaticSolid) continue;
 
-            if (belowCell.substance instanceof Empty // Gravity and density
-                    || belowCell.substance.properties.mass < substance.properties.mass) {
-                if (!(belowCell.x == x && belowCell.y == y-1)) {
-                    if (jitter.nextInt(6) == 1) {
-                        cellMatrix.swapCells(this, belowCell);
+            if ( cellMatrix.getCellSteppedBit(moveCandidate.x,moveCandidate.y) ) continue;
+
+            if (moveCandidate.substance.properties.mass < substance.properties.mass) {
+                if (moveCandidate.x == x && moveCandidate.y == y+1) { // if immediate below
+                    cellMatrix.swapCells(this, moveCandidate);
+
+                    cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
+                    cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
+
+                } else if (moveCandidate.y == y+1) { // if below
+                    if (jitter.nextInt(3) == 1) {
+                        cellMatrix.swapCells(this, moveCandidate);
 
                         cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x,y));
-                        cellMatrix.steppedBuffer.set( cellMatrix.steppedBitIndex(belowCell.x, belowCell.y) );
+                        cellMatrix.steppedBuffer.set( cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y) );
                     }
-                } else {
-                    if (jitter.nextInt(2) == 1) {
-                        cellMatrix.swapCells(this, belowCell);
+                } else { // if not below
+                    if (moveCandidate.x == x-1) { // if left
+                        if (jitter.nextInt(6) == 1) {
+                            cellMatrix.swapCells(this, moveCandidate);
 
-                        cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
-                        cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(belowCell.x, belowCell.y));
+                            cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
+                            cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
+                        }
+                    } else { // if right (increase odds to reduce left-side bias)
+                        if (jitter.nextInt(3) == 1) {
+                            cellMatrix.swapCells(this, moveCandidate);
+
+                            cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
+                            cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
+                        }
                     }
                 }
-
 
 
                 return;
@@ -100,6 +127,68 @@ public class Cell {
             }
         }
         temperature += totalHeatExchanged;
+    }
+
+    public Reaction react(CellMatrix cellMatrix, ArrayList<Cell> reactionCandidates) {
+        AbstractMap.SimpleEntry<Cell,Integer> priorityCell = null;
+        Reaction priorityReaction = null;
+
+
+        for (Cell cell : reactionCandidates) {
+            if (cell == null) { continue; }
+
+            ArrayList<ArrayList<Reaction>> combinedReactions = new ArrayList<>();
+            combinedReactions.add(substance.reactions);
+            combinedReactions.add(cell.substance.reactions);
+
+            for (ArrayList<Reaction> reactions : combinedReactions) {
+                for (Reaction reaction : reactions) {
+                    boolean passConditions = true;
+                    if (reaction.reactant().equals(cell.substance.getClass())) {
+                        for (ReactionCondition condition : reaction.conditions())
+                            if (!condition.condition(this.temperature)) {
+                                passConditions = false;
+                                break;
+                            }
+                        if (!passConditions) {
+                            continue;
+                        }
+
+                        if (reactions.get(0) == reaction) {
+                            if (reaction.results()[0] != null) cellMatrix.setCell(Objects.requireNonNull(
+                                                Cell.newCellOfType(reaction.results()[0],
+                                                        this.x, this.y,
+                                                        this.temperature + reaction.temperatureChange())));
+                            if (reaction.results()[1] != null) cellMatrix.setCell(
+                                                Objects.requireNonNull(Cell.newCellOfType(reaction.results()[1],
+                                                        cell.x, cell.y,
+                                                        cell.temperature + reaction.temperatureChange())));
+                            return reaction;
+                        }
+
+                        int index = reactions.indexOf(reaction);
+                        if (priorityCell == null
+                                || index < priorityCell.getValue()) {
+                            priorityCell = new AbstractMap.SimpleEntry<>(cell, index);
+                            priorityReaction = reaction;
+                        }
+                    }
+                }
+            }
+        }
+        if (priorityCell != null) {
+            if (priorityReaction.results()[0] != null) cellMatrix.setCell(Objects.requireNonNull(
+                                                        Cell.newCellOfType( priorityReaction.results()[0],
+                                                                            this.x, this.y,
+                                                                            this.temperature + priorityReaction.temperatureChange())));
+
+            if (priorityReaction.results()[1] != null) cellMatrix.setCell(Objects.requireNonNull(
+                                                        Cell.newCellOfType( priorityReaction.results()[1],
+                                                                            priorityCell.getKey().x, priorityCell.getKey().y,
+                                                                priorityCell.getKey().temperature + priorityReaction.temperatureChange())));
+            return priorityReaction;
+        }
+        return null;
     }
 
     public Cell setXY(int x, int y) { this.x = x; this.y = y; return this; }
