@@ -26,9 +26,9 @@ public class CopperChloride extends Liquid {
                 10.0,
                 new ReactionCondition[]{} ));
 
-        reactions.add(new Reaction( substances.liquid.SulfuricAcid.class,
+        reactions.add(new Reaction( SulfuricAcid.class,
                 new ReactionType[]{ReactionType.NEUTRALISATION},
-                new Class[]{Water.class, substances.liquid.CopperSulphate.class},
+                new Class[]{Water.class, substances.solid.movableSolid.CopperSulphate.class},
                 10.0,
                 new ReactionCondition[]{} ));
     }
