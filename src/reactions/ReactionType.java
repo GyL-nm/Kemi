@@ -18,9 +18,5 @@ public enum ReactionType {
     EVAPORATION,
     CONDENSATION,
     FREEZING,
-    DEPOSITION,
-
-    // REACTION ATTRIBUTES
-    EXOTHERMIC,
-    ENDOTHERMIC
+    DEPOSITION
 }
