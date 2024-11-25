@@ -1,12 +1,11 @@
 EMPTY
 AIR
 CHLORINE
-	HYDROGEN null synthesis,redox,exothermic HYDROCHLORIC_ACID_LIQUID
+	HYDROGEN null synthesis,redox,exothermic HYDROCHLORIC_ACID_LIQUID *
 
 
 HYDROGEN
-    CHLORINE null synthesis,redox,exothermic HYDROCHLORIC_ACID_LIQUID
-	OXYGEN null synthesis,redox,exothermic WATER
+	OXYGEN null synthesis,redox,exothermic WATER *
 
 OXYGEN
 
