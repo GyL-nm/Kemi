@@ -1,6 +1,5 @@
 import com.formdev.flatlaf.FlatDarculaLaf;
 import graphics.FPSCounter;
-import graphics.FPSGraphic;
 import substances.Empty;
 import substances.Substance;
 import system.Cell;

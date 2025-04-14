@@ -1,6 +1,4 @@
 import com.formdev.flatlaf.FlatDarculaLaf;
-import graphics.FPSCounter;
-import graphics.FPSGraphic;
 import substances.Empty;
 import substances.gas.Gas;
 import substances.liquid.Liquid;
@@ -8,7 +6,6 @@ import substances.solid.Solid;
 import system.Cell;
 import system.CellMatrix;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
