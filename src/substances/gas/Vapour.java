@@ -10,8 +10,12 @@ import java.util.ArrayList;
 public class Vapour extends Gas {
     final private SubstanceProperties PROPERTIES = SubstanceProperties.OXYGEN;
 
+
+
     public Vapour() {
         properties = PROPERTIES;
+
+        reactions = new Water().reactions;
     }
 
 //    @Override

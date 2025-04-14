@@ -16,6 +16,7 @@ public enum ReactionType {
     // PHASE CHANGES
     SUBLIMATION,
     EVAPORATION,
+    MELTING,
     CONDENSATION,
     FREEZING,
     DEPOSITION

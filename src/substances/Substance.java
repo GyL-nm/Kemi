@@ -9,8 +9,6 @@ import java.util.*;
 public abstract class Substance {
     public SubstanceProperties properties;
 
-    private java.util.Objects Objects;
-
     public Substance() {}
 
     public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {

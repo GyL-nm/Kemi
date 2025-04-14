@@ -20,37 +20,37 @@ public class Water extends Liquid {
         this.reactions = new ArrayList<>();
         reactions.add(new Reaction( substances.solid.movableSolid.CopperChloride.class,
                 new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{Empty.class, substances.liquid.CopperChloride.class},
+                new Class[]{substances.liquid.CopperChloride.class, substances.liquid.CopperChloride.class},
                 10.0,
                 new ReactionCondition[]{} ));
 
         reactions.add(new Reaction( substances.solid.movableSolid.CopperSulphate.class,
                 new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{Empty.class, substances.liquid.CopperSulphate.class},
+                new Class[]{substances.liquid.CopperSulphate.class, substances.liquid.CopperSulphate.class},
                 10.0,
                 new ReactionCondition[]{} ));
 
         reactions.add(new Reaction( substances.solid.movableSolid.HydrochloricAcid.class,
                 new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{Empty.class, substances.liquid.HydrochloricAcid.class},
+                new Class[]{substances.liquid.HydrochloricAcid.class, substances.liquid.HydrochloricAcid.class},
                 10.0,
                 new ReactionCondition[]{} ));
 
         reactions.add(new Reaction( substances.solid.movableSolid.SodiumChloride.class,
                 new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{Empty.class, substances.liquid.SodiumChloride.class},
+                new Class[]{substances.liquid.SodiumChloride.class, substances.liquid.SodiumChloride.class},
                 10.0,
                 new ReactionCondition[]{} ));
 
         reactions.add(new Reaction( substances.solid.movableSolid.SodiumHydroxide.class,
                 new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{Empty.class, substances.liquid.SodiumHydroxide.class},
+                new Class[]{substances.liquid.SodiumHydroxide.class, substances.liquid.SodiumHydroxide.class},
                 10.0,
                 new ReactionCondition[]{} ));
 
         reactions.add(new Reaction( substances.solid.movableSolid.SodiumSulphate.class,
                 new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{Empty.class, substances.liquid.SodiumSulphate.class},
+                new Class[]{substances.liquid.SodiumSulphate.class, substances.liquid.SodiumSulphate.class},
                 10.0,
                 new ReactionCondition[]{} ));
     }

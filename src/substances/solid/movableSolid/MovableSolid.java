@@ -7,6 +7,7 @@ import substances.solid.Solid;
 import system.Cell;
 import system.CellMatrix;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public abstract class MovableSolid extends Solid {
 
     @Override
     public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
-        return new ArrayList<>();
+        return adjacent.get(2); // below, below left, below right
     }
 
     //    @Override

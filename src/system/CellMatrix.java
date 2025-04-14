@@ -3,10 +3,12 @@ package system;
 import substances.Empty;
 import substances.Substance;
 import substances.SubstanceProperties;
+import substances.SubstanceReferences;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Random;
 
 public enum CellMatrix {
 
@@ -105,6 +107,19 @@ public enum CellMatrix {
             for (int row = 0; row < y; row++) {
                 for (int col = 0; col < x; col++) {
                     matrix.get(row).set(col, Cell.newCellOfType(fill,col,row,23));
+                }
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void fillRandom() {
+        try {
+            Random rand = new Random();
+            SubstanceProperties[] values = SubstanceProperties.values();
+            for (int row = 0; row < y; row++) {
+                for (int col = 0; col < x; col++) {
+                    matrix.get(row).set(col, Cell.newCellOfType(values[rand.nextInt(values.length)].getSubstanceReference(),col,row,23));
                 }
             }
         } catch (Exception ignored) {

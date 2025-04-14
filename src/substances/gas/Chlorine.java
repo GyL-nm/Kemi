@@ -21,7 +21,7 @@ public class Chlorine extends Gas {
         this.reactions = new ArrayList<>();
         reactions.add(new Reaction( Hydrogen.class,
                                     new ReactionType[]{ReactionType.REDOX,ReactionType.SYNTHESIS},
-                                    new Class[]{substances.liquid.HydrochloricAcid.class, Empty.class},
+                                    new Class[]{substances.liquid.HydrochloricAcid.class, substances.liquid.HydrochloricAcid.class},
                                     10.0,
                                     new ReactionCondition[]{}));
     }

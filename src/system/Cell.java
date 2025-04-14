@@ -4,6 +4,7 @@ import reactions.Reaction;
 import reactions.ReactionCondition;
 import substances.Empty;
 import substances.Substance;
+import substances.solid.movableSolid.MovableSolid;
 import substances.solid.staticSolid.StaticSolid;
 
 import java.util.AbstractMap;
@@ -58,9 +59,15 @@ public class Cell {
     private void move(CellMatrix cellMatrix, ArrayList<Cell> moveCandidates) {
         Random jitter = new Random();
 
+        if (substance == null) return;
+        if (substance instanceof StaticSolid) return;
+
+        boolean canWander = true;
+        if (substance instanceof MovableSolid) canWander = false;
+
         for (Cell moveCandidate : moveCandidates) {
             if (moveCandidate == null) continue;
-            if (moveCandidate.substance instanceof StaticSolid) continue;
+//            if (moveCandidate.substance instanceof StaticSolid) continue;
 
             if ( cellMatrix.getCellSteppedBit(moveCandidate.x,moveCandidate.y) ) continue;
 
@@ -79,25 +86,24 @@ public class Cell {
                         cellMatrix.steppedBuffer.set( cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y) );
                     }
                 } else { // if not below
-                    if (moveCandidate.x == x-1) { // if left
-                        if (jitter.nextInt(6) == 1) {
-                            cellMatrix.swapCells(this, moveCandidate);
+                    if (canWander) {
+                        if (moveCandidate.x == x - 1) { // if left
+                            if (jitter.nextInt(6) == 1) {
+                                cellMatrix.swapCells(this, moveCandidate);
 
-                            cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
-                            cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
-                        }
-                    } else { // if right (increase odds to reduce left-side bias)
-                        if (jitter.nextInt(3) == 1) {
-                            cellMatrix.swapCells(this, moveCandidate);
+                                cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
+                                cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
+                            }
+                        } else { // if right (increase odds to reduce left-side bias)
+                            if (jitter.nextInt(3) == 1) {
+                                cellMatrix.swapCells(this, moveCandidate);
 
-                            cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
-                            cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
+                                cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
+                                cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
+                            }
                         }
                     }
                 }
-
-
-                return;
             }
 
 //            if (    !(substance instanceof Solid)
@@ -118,7 +124,7 @@ public class Cell {
         double totalHeatExchanged = 0;
         for (ArrayList<Cell> row : adjacent) {
             for (Cell cell : row) {
-                if (cell == null || cell.substance == substance) continue;
+                if (cell == null || cell == this) continue;
 
                 double heatExchanged = (cell.temperature - temperature) * cell.substance.properties.getHeatTransferFactor() * substance.properties.getHeatTransferFactor() ;
                 cell.temperature -= heatExchanged;
@@ -192,6 +198,9 @@ public class Cell {
     }
 
     public Cell setXY(int x, int y) { this.x = x; this.y = y; return this; }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
 
     @Override
     public String toString() {

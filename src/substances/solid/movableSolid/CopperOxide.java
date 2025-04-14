@@ -7,5 +7,6 @@ public class CopperOxide extends MovableSolid {
 
     public CopperOxide() {
         properties = PROPERTIES;
+
     }
 }
