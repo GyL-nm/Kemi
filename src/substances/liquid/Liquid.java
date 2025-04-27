@@ -26,6 +26,16 @@ public abstract class Liquid extends Substance {
         return moveCandidates;
     }
 
+    @Override
+    public ArrayList<int[]> moveCandidateQueue() {
+        ArrayList queue = new ArrayList<>();
+        queue.add(new int[]{0,1});
+        queue.add(new int[]{-1,0});
+        queue.add(new int[]{1,0});
+
+        return queue;
+    }
+
     protected boolean canWander(Cell target) {
         if (target.substance instanceof Empty) { return true; }
         if (    (target.substance instanceof MovableSolid)

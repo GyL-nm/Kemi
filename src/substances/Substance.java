@@ -15,6 +15,15 @@ public abstract class Substance {
         return CellMatrix.flattenMatrix(adjacent);
     }
 
+    public ArrayList<int[]> moveCandidateQueue() {
+        ArrayList queue = new ArrayList<>();
+        queue.add(new int[]{-1,1});
+        queue.add(new int[]{0,1});
+        queue.add(new int[]{1,1});
+
+        return queue;
+    }
+
     public ArrayList<Cell> getReactionCandidates(ArrayList<ArrayList<Cell>> adjacent) { return CellMatrix.flattenMatrix(adjacent); }
 
     public ArrayList<Reaction> reactions = new ArrayList<>();

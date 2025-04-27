@@ -25,6 +25,9 @@ public class View extends JFrame {
     JButton startButton;
     JButton stopButton;
 
+    JSlider timescaleSlider;
+    JLabel timescaleLabel;
+
     JSlider penSlider;
     JLabel penLabel;
 
@@ -97,9 +100,14 @@ public class View extends JFrame {
         controls.add(startButton);
         controls.add(stopButton);
 
+        JPanel timescaleSliderPanel = new JPanel();
+        timescaleSlider = new JSlider(JSlider.HORIZONTAL, 1, 30, 1);
+        timescaleLabel = new JLabel("Timescale 1/"+ timescaleSlider.getValue());
+        timescaleSliderPanel.add(timescaleSlider);
+        timescaleSliderPanel.add(timescaleLabel);
+        controls.add(timescaleSliderPanel);
+
         JPanel substanceSectionPanel = new JPanel();
-        substanceSectionPanel.setBackground(Color.PINK);
-        substanceSectionPanel.setBorder(BorderFactory.createLineBorder(new Color(243, 210, 227), 20));
 
         JPanel penSliderPanel = new JPanel();
         penSlider = new JSlider(JSlider.HORIZONTAL, 1, 50, 1);
@@ -118,6 +126,7 @@ public class View extends JFrame {
         substancePanel = new SubstancePanel(this);
 
         substanceSectionPanel.add(substancePanel, BorderLayout.CENTER);
+        substanceSectionPanel.setBorder(BorderFactory.createLineBorder(Color.PINK, 20));
 
         rightPanel.add(substanceSectionPanel, BorderLayout.SOUTH);
         rightPanel.add(controls, BorderLayout.EAST);

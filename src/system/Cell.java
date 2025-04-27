@@ -40,21 +40,32 @@ public class Cell {
         ArrayList<ArrayList<Cell>> adjacent = getAdjacentCells(cellMatrix);
         exchangeHeat(adjacent);
 
-        move(cellMatrix, substance.getMoveCandidates(adjacent));
+        ArrayList<Cell> orderedAdjacent = getOrderedAdjacentCells(cellMatrix);
+        move(cellMatrix, orderedAdjacent);
 
         Reaction phase = phaseChange(cellMatrix);
-        if (phase == null) react(cellMatrix, CellMatrix.flattenMatrix(adjacent));
+        if (phase == null) react(cellMatrix, orderedAdjacent);
     }
 
     public ArrayList<ArrayList<Cell>> getAdjacentCells(CellMatrix cellMatrix) {
         ArrayList<ArrayList<Cell>> adjacent = new ArrayList<>();
 
         for (int row = y-1; row <= y+1; row++) {
-            ArrayList<Cell> newRow = new ArrayList<>();
+            ArrayList newRow = new ArrayList<>();
             for (int col = x-1; col <= x+1; col++) {
-                newRow.add(cellMatrix.getCell(col, row));
+                newRow.add(cellMatrix.getCell(row, col));
             }
             adjacent.add(newRow);
+        }
+
+        return adjacent;
+    }
+
+    public ArrayList<Cell> getOrderedAdjacentCells(CellMatrix cellMatrix) {
+        ArrayList<Cell> adjacent = new ArrayList<>();
+
+        for (int[] coord : substance.moveCandidateQueue()) {
+            adjacent.add(cellMatrix.getCell(x+coord[0], y+coord[1]));
         }
 
         return adjacent;

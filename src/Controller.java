@@ -15,12 +15,15 @@ import java.lang.reflect.InvocationTargetException;
 public class Controller {
     Timer simTimer;
     Timer uiTimer;
+    int timescale;
 
     int penSize;
     float bunsenTemp;
 
     Controller(Model model, View view) {
-        simTimer = getSimTimer(model, view);
+        timescale = 1;
+
+        simTimer = getSimTimer(model, view, timescale);
         uiTimer = getUITimer(model, view);
 
         penSize = 1;
@@ -42,6 +45,12 @@ public class Controller {
         view.startButton.addActionListener(e -> controller.start());
         view.stopButton.addActionListener(e -> controller.stop());
 
+        view.timescaleSlider.addChangeListener(e -> {
+            controller.timescale = view.timescaleSlider.getValue();
+            view.timescaleLabel.setText("Timescale 1/" + controller.timescale);
+
+            controller.setTimescale(model, view);
+        });
         view.penSlider.addChangeListener(e -> {
             controller.penSize = view.penSlider.getValue();
             view.penLabel.setText("Pen " + controller.penSize);
@@ -110,8 +119,13 @@ public class Controller {
         simTimer.stop(); uiTimer.stop();
     }
 
-    private static Timer getSimTimer(Model model, View viewFrame) {
-        double frameRate = (double) 1000/ (double) 30;
+    public void setTimescale(Model model, View view) {
+        stop();
+        simTimer = getSimTimer(model, view, timescale);
+    }
+
+    private Timer getSimTimer(Model model, View viewFrame, int timescaleReciprocal) {
+        double frameRate = (double) (1000*timescale) / (double) 30;
 
         FPSCounter fpsCounter = new FPSCounter();
 
@@ -128,7 +142,7 @@ public class Controller {
         return timer;
     }
 
-    private static Timer getUITimer(Model model, View viewFrame) {
+    private Timer getUITimer(Model model, View viewFrame) {
         double frameRate = (double) 1000/ (double) 60;
 
         Timer timer = new Timer((int) frameRate, e -> {
