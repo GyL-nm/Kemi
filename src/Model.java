@@ -75,7 +75,7 @@ public class Model {
         return sb.append(substanceCoord).append(substanceName).append(" ").append(substanceType).append(" ").append(substanceTemp).toString();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Model model = new Model(9);
         model.cellMatrix.setSize(101,101);
         model.cellMatrix.fill(Empty.class);

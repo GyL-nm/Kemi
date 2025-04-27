@@ -24,7 +24,7 @@ public class Controller {
         penSize = 1;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Model model = new Model(9);
         model.cellMatrix.setSize(101,101);
         model.cellMatrix.fill(Empty.class);

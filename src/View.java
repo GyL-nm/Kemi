@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class View extends JFrame {
     MatrixGraphic matrixPanel;
@@ -25,9 +26,10 @@ public class View extends JFrame {
 
     JLabel cellInfoLabel;
 
-    View(BufferedImage initialImage, Point imagePosition, int cellPixelSize) {
+    View(BufferedImage initialImage, Point imagePosition, int cellPixelSize) throws InterruptedException {
         FlatDarculaLaf.setup();
 
+        setVisible(false);
         Splashscreen splashscreen = new Splashscreen();
 
         matrixPanel = new MatrixGraphic(initialImage, imagePosition.x,imagePosition.y,9);
@@ -93,16 +95,18 @@ public class View extends JFrame {
         rightPanel.add(controls, BorderLayout.EAST);
 
 
-
         this.add(rightPanel, BorderLayout.EAST);
 
         this.add(fpsComponent,BorderLayout.SOUTH);
 
+
         this.pack();
 
+        TimeUnit.SECONDS.sleep(3);
         this.setFocusableWindowState(false);
         this.setVisible(true);
         this.setFocusableWindowState(true);
+        setExtendedState(MAXIMIZED_BOTH);
 
         this.setFont(new Font("BIZ UDMincho Medium", Font.BOLD, 16));
         splashscreen.enableAutoClose();
@@ -124,7 +128,7 @@ public class View extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Model model = new Model(9);
         model.image = model.matrixAsImage();
         View view = new View(model.image, new Point(27,27),9);
