@@ -60,33 +60,6 @@ public class View extends JFrame {
         cellInfoLabel = new JLabel("");
         cellInfoLabel.setFont(this.getFont().deriveFont(Font.BOLD));
 
-        matrixPanel.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                Point mouse = e.getPoint();
-
-                matrixPanel.setHoveredCell(mouse);
-                matrixPanel.repaint();
-            }
-        });
-
-        matrixPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                matrixPanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-                cellInfoLabel.setVisible(true);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                matrixPanel.setCursor(Cursor.getDefaultCursor());
-
-                matrixPanel.hoveredCell = null;
-                cellInfoLabel.setVisible(false);
-            }
-        });
-
-
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.add(matrixPanel, BorderLayout.CENTER);
         leftPanel.add(cellInfoLabel, BorderLayout.SOUTH);

@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.lang.reflect.InvocationTargetException;
 
 public class Controller {
@@ -60,31 +61,59 @@ public class Controller {
             view.tempLabel.setText(controller.bunsenTemp + "C");
         });
 
+        view.matrixPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                Point mouse = e.getPoint();
+
+                view.matrixPanel.penSize = controller.penSize;
+                view.matrixPanel.setHoveredCell(mouse);
+                view.matrixPanel.repaint();
+            }
+        });
+
+        view.matrixPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                view.matrixPanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+                view.cellInfoLabel.setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                view.matrixPanel.setCursor(Cursor.getDefaultCursor());
+
+                view.matrixPanel.hoveredCell = null;
+                view.cellInfoLabel.setVisible(false);
+            }
+        });
+
         view.matrixPanel.addMouseListener(new MouseAdapter() {
             Point lastPoint = new Point(-1,-1);
             @Override
             public void mousePressed(MouseEvent e) {
                 view.matrixPanel.setHoveredCell(new Point(e.getX(), e.getY()));
                 Class<? extends Substance> substance = view.substancePanel.selected;
-                if (!view.matrixPanel.hoveredCell.equals(lastPoint)) {
-                    for (int row=view.matrixPanel.hoveredCell.x-controller.penSize/2; row<view.matrixPanel.hoveredCell.x+1+controller.penSize/2; row++) {
-                        for (int col = view.matrixPanel.hoveredCell.y - controller.penSize / 2; col < view.matrixPanel.hoveredCell.y + 1 + controller.penSize / 2; col++) {
-                            try {
-                                double temp = view.tempSlider.getValue();
-                                placeCell(model, substance, new Point(row, col), temp);
-                            } catch (NoSuchMethodException ex) {
-                                throw new RuntimeException(ex);
-                            } catch (Exception ex) {
-                                continue;
-                            }
+
+                for (int col = (view.matrixPanel.hoveredCell.x - controller.penSize / 2);
+                     col < view.matrixPanel.hoveredCell.x+(double) controller.penSize/2;
+                     col++) {
+                    for (int row = (view.matrixPanel.hoveredCell.y - controller.penSize / 2);
+                         row < view.matrixPanel.hoveredCell.y+ (double) controller.penSize / 2;
+                         row++) {
+                        try {
+                            double temp = view.tempSlider.getValue();
+                            placeCell(model, substance, new Point(col, row), temp);
+                        } catch (NoSuchMethodException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (Exception ex) {
+                            continue;
                         }
                     }
-
-
-                    view.matrixPanel.setImage(model.matrixAsImage());
-                    view.matrixPanel.repaint();
                 }
-                lastPoint = view.matrixPanel.hoveredCell;
+
+                view.matrixPanel.setImage(model.matrixAsImage());
+                view.matrixPanel.repaint();
             }
 
             @Override

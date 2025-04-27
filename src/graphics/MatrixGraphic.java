@@ -9,12 +9,16 @@ public class MatrixGraphic extends JPanel {
     int cellPixelSize;
     public Point hoveredCell;
 
+    public int penSize;
+
 
     public MatrixGraphic(BufferedImage image, int x, int y, int cellPixelSize) {
         this.image = image;
         this.cellPixelSize = cellPixelSize;
         hoveredCell = null;
         imageX = x; imageY = y;
+
+        penSize = 1;
 
 //            private long lastTime = System.nanoTime();
 //            private int frameCount = 0;
@@ -39,10 +43,10 @@ public class MatrixGraphic extends JPanel {
             g2d.setColor(c); // border color
             g2d.setStroke(new BasicStroke(1)); // border thickness
             g2d.drawRect(
-                    (hoveredCell.x*cellPixelSize)+imageX,
-                    (hoveredCell.y*cellPixelSize)+imageY,
-                    cellPixelSize,
-                    cellPixelSize
+                    ( (hoveredCell.x-penSize/2) *cellPixelSize)+imageX,
+                    ( (hoveredCell.y-penSize/2) *cellPixelSize)+imageY,
+                    cellPixelSize*penSize+1,
+                    cellPixelSize*penSize+1
             );
         }
     }
