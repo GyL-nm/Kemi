@@ -40,7 +40,7 @@ public class View extends JFrame {
         FlatDarculaLaf.setup();
 
         try {
-            BufferedImage iconImage = ImageIO.read(Splashscreen.class.getResource("/splashscreen_image_v2.png")).getSubimage(64, 80, 200, 200);
+            BufferedImage iconImage = ImageIO.read(Splashscreen.class.getResource("/icon_image.png"));
             setIconImage(iconImage);
         } catch (Exception e) {
             System.out.println("Couldn't set icon: " + e.getMessage());
