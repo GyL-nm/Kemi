@@ -1,5 +1,9 @@
 package substances.gas;
 
+import reactions.ConditionType;
+import reactions.Reaction;
+import reactions.ReactionCondition;
+import reactions.ReactionType;
 import substances.Substance;
 import substances.SubstanceProperties;
 import substances.liquid.Water;
@@ -15,7 +19,20 @@ public class Vapour extends Gas {
     public Vapour() {
         properties = PROPERTIES;
 
-        reactions = new Water().reactions;
+        this.reactions = new Water().reactions;
+
+        this.phases = new ArrayList<>();
+        phases.add(new Reaction(null,
+                new ReactionType[]{ReactionType.DEPOSITION},
+                new Class[]{substances.solid.movableSolid.Ice.class},
+                0,
+                new ReactionCondition[]{new ReactionCondition(ConditionType.LESSER_THAN, 0.01) }));
+
+        phases.add(new Reaction(null,
+                new ReactionType[]{ReactionType.CONDENSATION},
+                new Class[]{substances.liquid.Water.class},
+                0,
+                new ReactionCondition[]{new ReactionCondition(ConditionType.LESSER_THAN, 99.99) }));
     }
 
 //    @Override

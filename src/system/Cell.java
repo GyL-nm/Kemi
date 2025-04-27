@@ -42,7 +42,8 @@ public class Cell {
 
         move(cellMatrix, substance.getMoveCandidates(adjacent));
 
-        react(cellMatrix, CellMatrix.flattenMatrix(adjacent));
+        Reaction phase = phaseChange(cellMatrix);
+        if (phase == null) react(cellMatrix, CellMatrix.flattenMatrix(adjacent));
     }
 
     public ArrayList<ArrayList<Cell>> getAdjacentCells(CellMatrix cellMatrix) {
@@ -141,7 +142,8 @@ public class Cell {
 
                 if (bunsenAdjacent) continue;
 
-                double heatExchanged = (cell.temperature - temperature) * cell.substance.properties.getHeatTransferFactor() * substance.properties.getHeatTransferFactor();
+                double conductance = Math.min(cell.substance.properties.getHeatTransferFactor(), substance.properties.getHeatTransferFactor());
+                double heatExchanged = (cell.temperature - temperature) * conductance;
                 cell.temperature -= heatExchanged;
 
                 totalHeatExchanged += heatExchanged;
@@ -149,6 +151,27 @@ public class Cell {
         }
         if (bunsenAdjacent) return;
         temperature += totalHeatExchanged;
+    }
+
+    public Reaction phaseChange(CellMatrix cellMatrix) {
+        for (Reaction phase : substance.phases) {
+            boolean passConditions = true;
+            for (ReactionCondition condition : phase.conditions())
+                if (!condition.condition(this.temperature)) {
+                    passConditions = false;
+                    break;
+                }
+            if (passConditions) {
+                cellMatrix.setCell(Objects.requireNonNull(
+                        Cell.newCellOfType(phase.results()[0],
+                                this.x, this.y,
+                                this.temperature + phase.temperatureChange())));
+
+                return phase;
+            }
+        }
+
+        return null;
     }
 
     public Reaction react(CellMatrix cellMatrix, ArrayList<Cell> reactionCandidates) {

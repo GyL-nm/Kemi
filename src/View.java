@@ -6,6 +6,8 @@ import graphics.SubstancePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -95,22 +97,32 @@ public class View extends JFrame {
         controls.add(startButton);
         controls.add(stopButton);
 
+        JPanel substanceSectionPanel = new JPanel();
+        substanceSectionPanel.setBackground(Color.PINK);
+        substanceSectionPanel.setBorder(BorderFactory.createLineBorder(new Color(243, 210, 227), 20));
+
+        JPanel penSliderPanel = new JPanel();
         penSlider = new JSlider(JSlider.HORIZONTAL, 1, 50, 1);
         penLabel = new JLabel("Pen 1");
-        controls.add(penSlider);
-        controls.add(penLabel);
+        penSliderPanel.add(penSlider);
+        penSliderPanel.add(penLabel);
+        substanceSectionPanel.add(penSliderPanel, BorderLayout.SOUTH);
 
-        JPanel substanceSectionPanel = new JPanel();
+        JPanel tempSliderPanel = new JPanel();
         tempSlider = new JSlider(JSlider.VERTICAL, -80, 1500, 32);
-        tempLabel = new JLabel("300C");
-        substanceSectionPanel.add(tempLabel);
-        substanceSectionPanel.add(tempSlider);
+        tempLabel = new JLabel(tempSlider.getValue() + "C");
+        tempSliderPanel.add(tempLabel);
+        tempSliderPanel.add(tempSlider);
+        substanceSectionPanel.add(tempSliderPanel, BorderLayout.WEST);
 
         substancePanel = new SubstancePanel(this);
-        substanceSectionPanel.add(substancePanel);
+
+        substanceSectionPanel.add(substancePanel, BorderLayout.CENTER);
 
         rightPanel.add(substanceSectionPanel, BorderLayout.SOUTH);
         rightPanel.add(controls, BorderLayout.EAST);
+        rightPanel.setBorder(new EmptyBorder(20, 0, 20, 20));
+
 
         this.add(rightPanel, BorderLayout.EAST);
 

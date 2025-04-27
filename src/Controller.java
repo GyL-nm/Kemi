@@ -24,7 +24,7 @@ public class Controller {
         uiTimer = getUITimer(model, view);
 
         penSize = 1;
-        bunsenTemp = 300f;
+        bunsenTemp = 32f;
     }
 
     public static void main(String[] args) {

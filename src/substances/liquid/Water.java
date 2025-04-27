@@ -1,5 +1,6 @@
 package substances.liquid;
 
+import reactions.ConditionType;
 import reactions.Reaction;
 import reactions.ReactionCondition;
 import reactions.ReactionType;
@@ -53,6 +54,19 @@ public class Water extends Liquid {
                 new Class[]{substances.liquid.SodiumSulphate.class, substances.liquid.SodiumSulphate.class},
                 10.0,
                 new ReactionCondition[]{} ));
+
+        this.phases = new ArrayList<>();
+        phases.add(new Reaction(null,
+                new ReactionType[]{ReactionType.FREEZING},
+                new Class[]{substances.solid.movableSolid.Ice.class},
+                0,
+                new ReactionCondition[]{new ReactionCondition(ConditionType.LESSER_THAN, 0.01) }));
+
+        phases.add(new Reaction(null,
+                new ReactionType[]{ReactionType.EVAPORATION},
+                new Class[]{substances.gas.Vapour.class},
+                0,
+                new ReactionCondition[]{new ReactionCondition(ConditionType.GREATER_THAN, 99.99) }));
     }
 
 //    @Override

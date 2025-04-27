@@ -18,6 +18,7 @@ public abstract class Substance {
     public ArrayList<Cell> getReactionCandidates(ArrayList<ArrayList<Cell>> adjacent) { return CellMatrix.flattenMatrix(adjacent); }
 
     public ArrayList<Reaction> reactions = new ArrayList<>();
+    public ArrayList<Reaction> phases = new ArrayList<>();
 
 //    public abstract void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> diffuseCandidates);
 
