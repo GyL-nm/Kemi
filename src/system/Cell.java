@@ -5,6 +5,7 @@ import reactions.ReactionCondition;
 import substances.Empty;
 import substances.Substance;
 import substances.solid.movableSolid.MovableSolid;
+import substances.solid.staticSolid.Bunsen;
 import substances.solid.staticSolid.StaticSolid;
 
 import java.util.AbstractMap;
@@ -123,17 +124,30 @@ public class Cell {
     protected void settle(CellMatrix cellMatrix, ArrayList<Cell> settleCandidates) {}
 
     public void exchangeHeat(ArrayList<ArrayList<Cell>> adjacent) {
+        if (substance instanceof Bunsen) {
+            return;
+        }
+
+        boolean bunsenAdjacent = false;
         double totalHeatExchanged = 0;
         for (ArrayList<Cell> row : adjacent) {
             for (Cell cell : row) {
                 if (cell == null || cell == this) continue;
 
-                double heatExchanged = (cell.temperature - temperature) * cell.substance.properties.getHeatTransferFactor() * substance.properties.getHeatTransferFactor() ;
+                if (cell.substance instanceof Bunsen) {
+                    bunsenAdjacent = true;
+                    temperature = Math.max(cell.temperature, temperature);
+                }
+
+                if (bunsenAdjacent) continue;
+
+                double heatExchanged = (cell.temperature - temperature) * cell.substance.properties.getHeatTransferFactor() * substance.properties.getHeatTransferFactor();
                 cell.temperature -= heatExchanged;
 
                 totalHeatExchanged += heatExchanged;
             }
         }
+        if (bunsenAdjacent) return;
         temperature += totalHeatExchanged;
     }
 

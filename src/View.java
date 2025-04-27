@@ -4,13 +4,13 @@ import graphics.MatrixGraphic;
 import graphics.Splashscreen;
 import graphics.SubstancePanel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -24,12 +24,22 @@ public class View extends JFrame {
     JButton stopButton;
 
     JSlider penSlider;
+    JLabel penLabel;
+
+    JSlider tempSlider;
+    JLabel tempLabel;
 
     JLabel cellInfoLabel;
 
     View(BufferedImage initialImage, Point imagePosition, int cellPixelSize) {
         FlatDarculaLaf.setup();
 
+        try {
+            BufferedImage iconImage = ImageIO.read(Splashscreen.class.getResource("/splashscreen_image_v2.png")).getSubimage(64, 80, 200, 200);
+            setIconImage(iconImage);
+        } catch (Exception e) {
+            System.out.println("Couldn't set icon: " + e.getMessage());
+        }
         setVisible(false);
         Splashscreen splashscreen = new Splashscreen();
 
@@ -86,15 +96,21 @@ public class View extends JFrame {
         controls.add(stopButton);
 
         penSlider = new JSlider(JSlider.HORIZONTAL, 1, 50, 1);
-        JLabel penLabel = new JLabel("Pen");
+        penLabel = new JLabel("Pen 1");
         controls.add(penSlider);
         controls.add(penLabel);
 
+        JPanel substanceSectionPanel = new JPanel();
+        tempSlider = new JSlider(JSlider.VERTICAL, -80, 1500, 32);
+        tempLabel = new JLabel("300C");
+        substanceSectionPanel.add(tempLabel);
+        substanceSectionPanel.add(tempSlider);
+
         substancePanel = new SubstancePanel(this);
+        substanceSectionPanel.add(substancePanel);
 
-        rightPanel.add(substancePanel, BorderLayout.SOUTH);
+        rightPanel.add(substanceSectionPanel, BorderLayout.SOUTH);
         rightPanel.add(controls, BorderLayout.EAST);
-
 
         this.add(rightPanel, BorderLayout.EAST);
 
@@ -117,8 +133,6 @@ public class View extends JFrame {
         this.setFont(new Font("BIZ UDMincho Medium", Font.BOLD, 16));
         splashscreen.enableAutoClose();
     }
-
-
 
     void setMatrixImage(BufferedImage image) {
         matrixPanel.setImage(image);
