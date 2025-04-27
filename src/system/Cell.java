@@ -16,6 +16,8 @@ public class Cell {
     int x;
     int y;
 
+    final int JITTER_CONSTANT = 6;
+
     public double temperature; // room temp = 23
 
     public Substance substance;
@@ -79,7 +81,7 @@ public class Cell {
                     cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
 
                 } else if (moveCandidate.y == y+1) { // if below
-                    if (jitter.nextInt(3) == 1) {
+                    if (jitter.nextInt(JITTER_CONSTANT) == 1) {
                         cellMatrix.swapCells(this, moveCandidate);
 
                         cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x,y));
@@ -88,14 +90,14 @@ public class Cell {
                 } else { // if not below
                     if (canWander) {
                         if (moveCandidate.x == x - 1) { // if left
-                            if (jitter.nextInt(6) == 1) {
+                            if (jitter.nextInt(JITTER_CONSTANT) == 1) {
                                 cellMatrix.swapCells(this, moveCandidate);
 
                                 cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
                                 cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
                             }
                         } else { // if right (increase odds to reduce left-side bias)
-                            if (jitter.nextInt(3) == 1) {
+                            if (jitter.nextInt(JITTER_CONSTANT) == 1) {
                                 cellMatrix.swapCells(this, moveCandidate);
 
                                 cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
