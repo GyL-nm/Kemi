@@ -1,5 +1,7 @@
+import com.formdev.flatlaf.FlatDarculaLaf;
 import graphics.FPSGraphic;
 import graphics.MatrixGraphic;
+import graphics.Splashscreen;
 import graphics.SubstancePanel;
 
 import javax.swing.*;
@@ -24,13 +26,9 @@ public class View extends JFrame {
     JLabel cellInfoLabel;
 
     View(BufferedImage initialImage, Point imagePosition, int cellPixelSize) {
-//        try {
-//            GraphicsEnvironment ge =
-//                    GraphicsEnvironment.getLocalGraphicsEnvironment();
-//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("A.ttf")));
-//        } catch (IOException|FontFormatException e) {
-//            //Handle exception
-//        }
+        FlatDarculaLaf.setup();
+
+        Splashscreen splashscreen = new Splashscreen();
 
         matrixPanel = new MatrixGraphic(initialImage, imagePosition.x,imagePosition.y,9);
         fpsComponent = new FPSGraphic(this, 0, Color.black, Color.red);
@@ -50,20 +48,6 @@ public class View extends JFrame {
                 Point mouse = e.getPoint();
 
                 matrixPanel.setHoveredCell(mouse);
-
-//                // Bounds check
-//                if (row >= 0 && row < model.cellMatrix.getSize()[1] &&
-//                        col >= 0 && col < model.cellMatrix.getSize()[0]) {
-//
-//                    Cell hovered = model.cellMatrix.getCell(row, col);
-//                    System.out.println("Hovering over: " + hovered.toString());
-//
-//                    cellInfoLabel.setVisible(true);
-//                    cellInfoLabel.setText(model.cellInfo(hovered));
-//                } else {
-//                    cellInfoLabel.setVisible(false);
-//                }
-
                 matrixPanel.repaint();
             }
         });
@@ -91,14 +75,6 @@ public class View extends JFrame {
 
         this.add(leftPanel, BorderLayout.WEST);
 
-        // Buttons to control the timer
-
-
-//        startButton.addActionListener(e -> timer.start());
-//        stopButton.addActionListener(e -> timer.stop());
-
-        // Add buttons to a control panel
-
         JPanel rightPanel = new JPanel(new BorderLayout());
         controls = new JPanel();
         startButton = new JButton("Start");
@@ -123,10 +99,16 @@ public class View extends JFrame {
         this.add(fpsComponent,BorderLayout.SOUTH);
 
         this.pack();
+
+        this.setFocusableWindowState(false);
         this.setVisible(true);
+        this.setFocusableWindowState(true);
 
         this.setFont(new Font("BIZ UDMincho Medium", Font.BOLD, 16));
+        splashscreen.enableAutoClose();
     }
+
+
 
     void setMatrixImage(BufferedImage image) {
         matrixPanel.setImage(image);

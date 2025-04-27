@@ -1,5 +1,6 @@
 import com.formdev.flatlaf.FlatDarculaLaf;
 import graphics.FPSCounter;
+import graphics.FontLoader;
 import substances.Empty;
 import substances.Substance;
 import system.Cell;
@@ -30,6 +31,7 @@ public class Controller {
         model.cellMatrix.fillRandom();
 
         FlatDarculaLaf.setup();
+        FontLoader.loadFonts();
         View view = new View(model.matrixAsImage(), new Point(27,27),9);
 
         Controller controller = new Controller(model,view);
@@ -74,7 +76,7 @@ public class Controller {
 
         System.out.println("beyond");
 
-        controller.startAll();
+        controller.uiTimer.start();
     }
 
     public static void placeCell(Model model, Class<? extends Substance> substance, Point cell, double temp) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
