@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +27,7 @@ public class View extends JFrame {
 
     JLabel cellInfoLabel;
 
-    View(BufferedImage initialImage, Point imagePosition, int cellPixelSize) throws InterruptedException {
+    View(BufferedImage initialImage, Point imagePosition, int cellPixelSize) {
         FlatDarculaLaf.setup();
 
         setVisible(false);
@@ -102,7 +103,12 @@ public class View extends JFrame {
 
         this.pack();
 
-        TimeUnit.SECONDS.sleep(3);
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (Exception e) {
+            System.out.println("Wait skipped: " +e.getMessage());
+        }
+
         this.setFocusableWindowState(false);
         this.setVisible(true);
         this.setFocusableWindowState(true);
@@ -128,7 +134,7 @@ public class View extends JFrame {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Model model = new Model(9);
         model.image = model.matrixAsImage();
         View view = new View(model.image, new Point(27,27),9);

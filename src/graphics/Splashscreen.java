@@ -1,11 +1,14 @@
 package graphics;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Splashscreen extends JFrame {
     BufferedImage splash;
@@ -17,54 +20,72 @@ public class Splashscreen extends JFrame {
 
     public Splashscreen() {
         super("Splashscreen");
-        setUndecorated(true);
-        setResizable(false);
-        setAlwaysOnTop(true);
-        setType(Window.Type.UTILITY);
+        try {
+            splash = ImageIO.read(Splashscreen.class.getResourceAsStream("/splashscreen_image_v2.png"));
 
-        getContentPane().setBackground(new Color(60,63,65) );
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+            setUndecorated(true);
+            setResizable(false);
+            setAlwaysOnTop(true);
+            setType(Window.Type.UTILITY);
 
-        setLayout(new BorderLayout());
+            getContentPane().setBackground(new Color(60, 63, 65));
+            setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        x = (screenSize.width - WIDTH) / 2;
-        y = (screenSize.height - HEIGHT) / 2;
-        setLocation(x, y);
+            setLayout(new BorderLayout());
 
-        BufferedImage bg1 = new BufferedImage(200, 400, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics = bg1.createGraphics();
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            x = (screenSize.width - WIDTH) / 2;
+            y = (screenSize.height - HEIGHT) / 2;
+            setLocation(x, y);
 
-        graphics.setPaint(Color.PINK);
-        graphics.fillRect(0, 0, 200, 400);
+            BufferedImage bg1 = new BufferedImage(200, 400, BufferedImage.TYPE_INT_RGB);
+            Graphics2D graphics = bg1.createGraphics();
 
-        graphics.setPaint(Color.WHITE);
-        graphics.fillRect(0, 0, 150, 400);
+            graphics.setPaint(Color.PINK);
+            graphics.fillRect(0, 0, 200, 400);
 
-        add(new JLabel(new ImageIcon(bg1)), BorderLayout.WEST);
+            graphics.setPaint(Color.WHITE);
+            graphics.fillRect(0, 0, 150, 400);
 
-        JPanel textPanel = new JPanel();
-        textPanel.setBackground(new Color(60,63,65) );
-        textPanel.setBorder(new EmptyBorder(100, 10, 10, 20));
+            add(new JLabel(new ImageIcon(bg1)), BorderLayout.WEST);
 
-        JLabel descLabel = new JLabel("<html>A cellular-automata <br/> based chemistry simulator.</html>");
-        JLabel creditsLabel = new JLabel(":) Njabu Macfoy 2025");
+            JPanel textPanel = new JPanel();
+            textPanel.setBackground(new Color(60, 63, 65));
+            textPanel.setBorder(new EmptyBorder(100, 10, 10, 20));
 
-        descLabel.setFont(new Font("Rounded Mplus 1c", Font.BOLD, 20));
-        descLabel.setForeground(Color.WHITE);
+            JLabel descLabel = new JLabel("<html>A cellular-automata <br/> based chemistry simulator.</html>");
+            JLabel creditsLabel = new JLabel(":) Njabu Macfoy 2025");
 
-        creditsLabel.setFont(new Font("Sawarabi Gothic", Font.PLAIN, 10));
-        creditsLabel.setForeground(Color.WHITE);
-        creditsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            descLabel.setFont(new Font("Rounded Mplus 1c", Font.BOLD, 20));
+            descLabel.setForeground(Color.WHITE);
 
-        textPanel.setLayout(new BorderLayout());
-        textPanel.add(descLabel, BorderLayout.NORTH);
-        textPanel.add(creditsLabel, BorderLayout.SOUTH);
+            creditsLabel.setFont(new Font("Sawarabi Gothic", Font.PLAIN, 10));
+            creditsLabel.setForeground(Color.WHITE);
+            creditsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        add(textPanel, BorderLayout.EAST);
+            textPanel.setLayout(new BorderLayout());
+            textPanel.add(descLabel, BorderLayout.NORTH);
+            textPanel.add(creditsLabel, BorderLayout.SOUTH);
 
-        pack();
-        setVisible(true);
+            add(textPanel, BorderLayout.EAST);
+
+            pack();
+            setVisible(true);
+        } catch (Exception e) {
+            System.out.println("Splashscreen not loaded: " + e.getMessage());
+        }
+    }
+
+    public int splashX = -100;
+    public int splashY = -125;
+    public int splashWidth = 600;
+    public int splashHeight = 600;
+    public void paint(Graphics g) {
+        super.paint(g);
+
+        if (splash != null) {
+            g.drawImage(splash, splashX, splashY, splashWidth,splashHeight, this);
+        }
     }
 
     private void fadeOutAndDispose() {
@@ -100,11 +121,11 @@ public class Splashscreen extends JFrame {
         });
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         FontLoader.loadFonts();
 
-        Splashscreen splash = new Splashscreen();
-        splash.setVisible(true);
-        splash.enableAutoClose();
+        Splashscreen splashscreen = new Splashscreen();
+        splashscreen.setVisible(true);
+        // splashscreen.enableAutoClose();
     }
 }

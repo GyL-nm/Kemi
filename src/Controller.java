@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class Controller {
@@ -24,11 +25,11 @@ public class Controller {
         penSize = 1;
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Model model = new Model(9);
         model.cellMatrix.setSize(101,101);
         model.cellMatrix.fill(Empty.class);
-        model.cellMatrix.fillRandom();
+//        model.cellMatrix.fillRandom();
 
         FlatDarculaLaf.setup();
         FontLoader.loadFonts();
@@ -100,7 +101,7 @@ public class Controller {
     }
 
     private static Timer getSimTimer(Model model, View viewFrame) {
-        double frameRate = (double) 1000/ (double) 10;
+        double frameRate = (double) 1000/ (double) 30;
 
         FPSCounter fpsCounter = new FPSCounter();
 

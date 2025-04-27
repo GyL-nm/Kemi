@@ -8,6 +8,7 @@ import system.CellMatrix;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Model {
     CellMatrix cellMatrix;
@@ -75,7 +76,7 @@ public class Model {
         return sb.append(substanceCoord).append(substanceName).append(" ").append(substanceType).append(" ").append(substanceTemp).toString();
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Model model = new Model(9);
         model.cellMatrix.setSize(101,101);
         model.cellMatrix.fill(Empty.class);
