@@ -1,0 +1,23 @@
+package main.reactions;
+
+public enum ReactionType {
+
+    // CHEMICAL REACTIONS
+    DOUBLE_DISPLACEMENT,
+    NEUTRALISATION,
+    ELECTROLYSIS,
+    CRYSTALLISATION,
+    DISSOLUTION,
+    SYNTHESIS,
+    REDUCTION,
+    OXIDATION,
+    REDOX,
+
+    // PHASE CHANGES
+    SUBLIMATION,
+    EVAPORATION,
+    MELTING,
+    CONDENSATION,
+    FREEZING,
+    DEPOSITION
+}
