@@ -127,11 +127,11 @@ public enum CellMatrix {
         return matrix.get(y).get(x) != null;
     }
 
-    public void fill(Class<? extends Substance> fill) {
+    public void fill(Class<? extends Substance> fill, double temperature) {
         try {
             for (int row = 0; row < y; row++) {
                 for (int col = 0; col < x; col++) {
-                    matrix.get(row).set(col, Cell.newCellOfType(fill,col,row,23));
+                    matrix.get(row).set(col, Cell.newCellOfType(fill,col,row,temperature));
                 }
             }
         } catch (Exception ignored) {

@@ -71,8 +71,9 @@ public class Main {
                     try {
                         System.out.print("Substance >> ");
                         String substanceInput = input.nextLine().toUpperCase().replaceAll(" ", "_");
-
-                        cellMatrix.fill(SubstanceProperties.valueOf(substanceInput).getSubstanceReference());
+                        System.out.print("\nTemperature >> ");
+                        double temperatureInput = Double.parseDouble(input.nextLine());
+                        cellMatrix.fill(SubstanceProperties.valueOf(substanceInput).getSubstanceReference(), temperatureInput);
 
                         break;
                     } catch (Exception e) {

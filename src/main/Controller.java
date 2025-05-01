@@ -43,7 +43,7 @@ public class Controller {
     public static void main(String[] args) {
         Model model = new Model(9);
         model.cellMatrix.setSize(101,101);
-        model.cellMatrix.fill(Empty.class);
+        model.cellMatrix.fill(Empty.class, 25.0);
 //        model.cellMatrix.fillRandom();
 
         FlatDarculaLaf.setup();
@@ -91,6 +91,10 @@ public class Controller {
 
         view.startButton.addActionListener(e -> controller.start());
         view.stopButton.addActionListener(e -> controller.stop());
+        view.stepButton.addActionListener(e -> {
+            controller.stop();
+            controller.step(model, view);
+        });
 
         view.timescaleSlider.addChangeListener(e -> {
             controller.timescale = view.timescaleSlider.getValue();
@@ -277,15 +281,19 @@ public class Controller {
         simTimer = getSimTimer(model, view, timescale);
     }
 
+    private void step(Model model, View viewFrame) {
+        model.cellMatrix.stepAll();
+        viewFrame.setMatrixImage(model.matrixAsImage());
+        viewFrame.repaint();
+    }
+
     private Timer getSimTimer(Model model, View viewFrame, int timescaleReciprocal) {
         double frameRate = (double) (1000*timescale) / (double) 30;
 
         FPSCounter fpsCounter = new FPSCounter();
 
         Timer timer = new Timer((int) frameRate, e -> {
-            model.cellMatrix.stepAll();
-            viewFrame.setMatrixImage(model.matrixAsImage());
-            viewFrame.repaint();
+            step(model, viewFrame);
 
             fpsCounter.frame();
 

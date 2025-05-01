@@ -38,8 +38,8 @@ public class Cell {
     public void step(CellMatrix cellMatrix) {
         ArrayList<ArrayList<Cell>> adjacent = getAdjacentCells(cellMatrix);
         exchangeHeat(adjacent);
-        Reaction phase = phaseChange(cellMatrix);
-        if (phase != null) react(cellMatrix, CellMatrix.flattenMatrix(adjacent));
+        phaseChange(cellMatrix);
+        react(cellMatrix, CellMatrix.flattenMatrix(adjacent));
 
         ArrayList<Cell> orderedAdjacent = getOrderedAdjacentCells(cellMatrix);
         move(cellMatrix, orderedAdjacent);

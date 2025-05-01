@@ -80,7 +80,7 @@ public class Model {
     public static void main(String[] args) {
         Model model = new Model(9);
         model.cellMatrix.setSize(101,101);
-        model.cellMatrix.fill(Empty.class);
+        model.cellMatrix.fill(Empty.class, 25.0);
 //        model.cellMatrix.fillRandom();
 
         FlatDarculaLaf.setup();
