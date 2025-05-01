@@ -25,6 +25,8 @@ public class View extends JFrame {
     JPanel controls;
     JButton startButton;
     JButton stopButton;
+    JButton stepButton;
+    JButton clearButton;
 
     JSlider timescaleSlider;
     JLabel timescaleLabel;
@@ -55,7 +57,8 @@ public class View extends JFrame {
         this.setTitle("Kemi [ケミ]");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(initialImage.getWidth()+(imagePosition.x*cellPixelSize), initialImage.getHeight()+(imagePosition.y*cellPixelSize)));
-        System.out.println(Arrays.toString(GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()));
+        this.setResizable(false);
+//        System.out.println(Arrays.toString(GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()));
         this.setFont(new Font("BIZ UDMincho Medium", Font.BOLD, 16));
 
         cellInfoLabel = new JLabel("");
@@ -68,18 +71,24 @@ public class View extends JFrame {
         this.add(leftPanel, BorderLayout.WEST);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
-        controls = new JPanel();
+        controls = new JPanel(new BorderLayout());
+
+        JPanel simControls = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
-        controls.add(startButton);
-        controls.add(stopButton);
+        stepButton = new JButton("Step");
+        simControls.add(startButton);
+        simControls.add(stopButton);
+
+        controls.add(simControls, BorderLayout.NORTH);
+        controls.add(stepButton, BorderLayout.CENTER);
 
         JPanel timescaleSliderPanel = new JPanel();
         timescaleSlider = new JSlider(JSlider.HORIZONTAL, 1, 30, 1);
         timescaleLabel = new JLabel("Timescale 1/"+ timescaleSlider.getValue());
         timescaleSliderPanel.add(timescaleSlider);
         timescaleSliderPanel.add(timescaleLabel);
-        controls.add(timescaleSliderPanel);
+        controls.add(timescaleSliderPanel, BorderLayout.SOUTH);
 
         JPanel substanceSectionPanel = new JPanel(new BorderLayout());
 
@@ -120,19 +129,18 @@ public class View extends JFrame {
             System.out.println("Wait skipped: " +e.getMessage());
         }
 
-        this.setFocusableWindowState(false);
+
         this.setVisible(true);
-        this.setFocusableWindowState(true);
         setExtendedState(MAXIMIZED_BOTH);
 
+        splashscreen.toFront();
+        splashscreen.requestFocus();
         splashscreen.enableAutoClose();
-
-
-
     }
 
     void setMatrixImage(BufferedImage image) {
         matrixPanel.setImage(image);
+        matrixPanel.repaint();
     }
 
     @Override

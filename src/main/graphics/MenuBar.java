@@ -12,19 +12,14 @@ public class MenuBar extends JMenuBar {
     public JMenuItem loadItem = new JMenuItem("Load");
     public JMenuItem saveItem = new JMenuItem("Save");
 
-    public JMenu editMenu = new JMenu("Edit");
-    public JMenuItem ambientSubstanceItem = new JMenuItem("Set Ambient Substance");
-
     public JMenu tutorialMenu = new JMenu("Tutorial");
     public HashMap<File,JMenuItem> tutorialFiles;
 
     public MenuBar() throws URISyntaxException {
         super();
 
-        fileMenu.add(loadItem);
         fileMenu.add(saveItem);
-
-        editMenu.add(ambientSubstanceItem);
+        fileMenu.add(loadItem);
 
         tutorialFiles = new HashMap<>();
         // tutorialFiles.put(new File(MenuBar.class.getResource("/tutorials/tutorial1.kemi").toURI()),new JMenuItem("Tutorial 1"));
@@ -34,7 +29,6 @@ public class MenuBar extends JMenuBar {
         }
 
         add(fileMenu);
-        add(editMenu);
         add(tutorialMenu);
     }
 }
