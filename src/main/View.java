@@ -3,6 +3,7 @@ package main;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import main.graphics.FPSGraphic;
 import main.graphics.MatrixGraphic;
+import main.graphics.MenuBar;
 import main.graphics.Splashscreen;
 import main.graphics.SubstancePanel;
 
@@ -15,6 +16,8 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class View extends JFrame {
+    MenuBar menuBar;
+
     MatrixGraphic matrixPanel;
     FPSGraphic fpsComponent;
     SubstancePanel substancePanel;
@@ -122,8 +125,10 @@ public class View extends JFrame {
         this.setFocusableWindowState(true);
         setExtendedState(MAXIMIZED_BOTH);
 
-        this.setFont(new Font("BIZ UDMincho Medium", Font.BOLD, 16));
         splashscreen.enableAutoClose();
+
+
+
     }
 
     void setMatrixImage(BufferedImage image) {

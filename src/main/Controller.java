@@ -1,18 +1,28 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import main.graphics.FPSCounter;
 import main.graphics.FontLoader;
+import main.graphics.MenuBar;
 import main.substances.Empty;
 import main.substances.Substance;
+import main.substances.SubstanceProperties;
 import main.system.Cell;
+import main.system.CellMatrix;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class Controller {
     Timer simTimer;
@@ -43,6 +53,43 @@ public class Controller {
         View view = new View(model.matrixAsImage(), new Point(27,27),9);
 
         Controller controller = new Controller(model,view);
+
+        // view.menuBar.tutorialFiles.put();
+
+        try {
+            MenuBar menuBar = new MenuBar();
+
+            for (File file : menuBar.tutorialFiles.keySet()) {
+                JMenuItem menuItem = menuBar.tutorialFiles.get(file);
+                menuItem.addActionListener(e -> {
+                    try {
+                        String json = new String(Files.readAllBytes(file.toPath()));
+                        CellMatrix.fromJsonFile(model.cellMatrix, json);
+                        model.matrixAsImage();
+                        view.matrixPanel.repaint();
+
+                    } catch (Exception ex) {
+                        System.out.println("Couldn't load tutorial file: " + ex.getMessage());
+                    }
+                });
+            }
+
+            menuBar.loadItem.addActionListener(e -> {
+                System.out.println("Loading from file");
+                loadMatrixToFile(model, view);
+                view.matrixPanel.repaint();
+            });
+            menuBar.saveItem.addActionListener(e -> {
+                System.out.println("Saving to file");
+                saveMatrixToFile(model, view);
+                view.matrixPanel.repaint();
+            });
+
+            view.add(menuBar, BorderLayout.NORTH);
+
+        } catch (Exception ex) {
+            System.out.println("Couldn't load menubar: " + ex);
+        }
 
         view.startButton.addActionListener(e -> controller.start());
         view.stopButton.addActionListener(e -> controller.stop());
@@ -124,13 +171,90 @@ public class Controller {
             }
         });
 
-        System.out.println("beyond");
-
         controller.uiTimer.start();
     }
 
     public static void placeCell(Model model, Class<? extends Substance> substance, Point cell, double temp) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         model.cellMatrix.setCell(new Cell(substance.getConstructor().newInstance(),cell.x,cell.y,temp) );
+    }
+
+    public static GsonBuilder getGsonBuilder() {
+        return new GsonBuilder()
+                .registerTypeAdapter(SubstanceProperties.class, new TypeAdapter<SubstanceProperties>() {
+                    @Override
+                    public void write(JsonWriter out, SubstanceProperties value) throws IOException {
+                        out.value(value.name());
+                    }
+
+                    @Override
+                    public SubstanceProperties read(JsonReader in) throws IOException {
+                        return SubstanceProperties.valueOf(in.nextString());
+                    }
+                }).registerTypeAdapter(Substance.class, new JsonDeserializer<Substance>() {
+                    @Override
+                    public Substance deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
+                                                 JsonDeserializationContext context) throws JsonParseException {
+                        SubstanceProperties properties = context.deserialize(json.getAsJsonObject().get("properties"), SubstanceProperties.class);
+
+                        try {
+                            Substance instance = (Substance) properties.getSubstanceReference().getDeclaredConstructor().newInstance();
+                            instance.properties = properties;
+                            return instance;
+                        } catch (Exception e) {
+                            throw new JsonParseException("Failed to instantiate subclass of Substance", e);
+                        }
+                    }
+                });
+    }
+
+    public static File saveMatrixToFile(Model model, View view) {
+        try {
+            CellMatrix cellMatrix = model.cellMatrix;
+
+            JFileChooser saveDialog = new JFileChooser(System.getProperty("user.home"));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Kemi save file", "kemi");
+            saveDialog.setFileFilter(filter);
+
+            if (saveDialog.showSaveDialog(view) == JFileChooser.APPROVE_OPTION) {
+
+                String fileName = saveDialog.getSelectedFile().getAbsolutePath();
+                File file = new File(fileName.endsWith(".kemi") ? fileName : fileName + ".kemi");
+
+                FileWriter fw = new FileWriter(file);
+                fw.write(Objects.requireNonNull(cellMatrix.toJsonFile()));
+                fw.close();
+
+                return file;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Couldn't save to file: " + e);
+            throw new RuntimeException(e);
+//            return null;
+        }
+    }
+
+    public static CellMatrix loadMatrixToFile(Model model, View view) {
+        try {
+            JFileChooser loadDialog = new JFileChooser(System.getProperty("user.home"));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Kemi save file", "kemi");
+            loadDialog.setFileFilter(filter);
+
+            if (loadDialog.showOpenDialog(view) == JFileChooser.APPROVE_OPTION) {
+                System.out.println(loadDialog.getSelectedFile());
+                String json = new String(Files.readAllBytes(loadDialog.getSelectedFile().toPath()));
+
+                CellMatrix.fromJsonFile(model.cellMatrix, json);
+                return model.cellMatrix;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Couldn't load to file: " + e);
+            throw new RuntimeException(e);
+//            return null;
+        }
     }
 
     public void startAll() {

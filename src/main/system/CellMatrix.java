@@ -1,11 +1,20 @@
 package main.system;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import main.Controller;
+import main.serializable.SerializableCellMatrix;
 import main.substances.Empty;
 import main.substances.Substance;
 import main.substances.SubstanceProperties;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Random;
 
@@ -36,6 +45,18 @@ public enum CellMatrix {
         this.setSize(x,y);
     }
 
+    public ArrayList<ArrayList<Cell>> getMatrix() { return matrix; }
+    public int getY() { return y; }
+    public int getX() { return x; }
+    public BitSet getSteppedBuffer() { return steppedBuffer; }
+
+    public void setCellMatrix(SerializableCellMatrix parser) {
+        this.matrix = parser.matrix;
+        this.steppedBuffer = parser.steppedBuffer;
+        this.x = parser.x;
+        this.y = parser.y;
+    }
+
     public int[] getSize() { return new int[]{ this.x,this.y }; }
 
     public void setSize(int x, int y) {
@@ -47,13 +68,17 @@ public enum CellMatrix {
     }
 
     private void setMatrixSize(int x, int y) {
-        matrix = new ArrayList<>();
-        for (int row = 0; row < y; row++) {
-            ArrayList<Cell> newRow = new ArrayList<>();
-            for (int col = 0; col < x; col++) {
-                newRow.add(new Cell(new Empty(), col, row, 32.0));
+        try {
+            matrix = new ArrayList<>();
+            for (int row = 0; row < y; row++) {
+                ArrayList<Cell> newRow = new ArrayList<>();
+                for (int col = 0; col < x; col++) {
+                    newRow.add(new Cell(new Empty(), col, row, 32.0));
+                }
+                matrix.add(newRow);
             }
-            matrix.add(newRow);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
     private void setXY(int x, int y) { this.x = x; this.y = y; }
@@ -129,6 +154,28 @@ public enum CellMatrix {
         steppedBuffer.clear();
         for (Cell cell : this.getFlatMatrix()) {
             cell.step(this);
+        }
+    }
+
+    public String toJsonFile() {
+        SerializableCellMatrix parser = new SerializableCellMatrix(this);
+        try {
+            Gson gson = Controller.getGsonBuilder().create();
+            return gson.toJson(parser);
+        } catch (Exception e) {
+            System.out.println("Couldn't generate json file: " + e.getMessage() + Arrays.toString(e.getStackTrace()));
+            return null;
+        }
+    }
+
+    public static CellMatrix fromJsonFile(CellMatrix cellMatrix, String jsonFile) {
+        try {
+            Gson gson = Controller.getGsonBuilder().create();
+            SerializableCellMatrix parser = gson.fromJson(jsonFile, SerializableCellMatrix.class);
+            return parser.toCellMatrix(cellMatrix);
+        } catch (Exception e) {
+            System.out.println("Couldn't load from json file: " + e.getMessage() + Arrays.toString(e.getStackTrace()));
+            return null;
         }
     }
 
