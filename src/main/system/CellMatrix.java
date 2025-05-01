@@ -13,6 +13,7 @@ import main.substances.SubstanceProperties;
 
 import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
@@ -50,11 +51,11 @@ public enum CellMatrix {
     public int getX() { return x; }
     public BitSet getSteppedBuffer() { return steppedBuffer; }
 
-    public void setCellMatrix(SerializableCellMatrix parser) {
-        this.matrix = parser.matrix;
-        this.steppedBuffer = parser.steppedBuffer;
-        this.x = parser.x;
-        this.y = parser.y;
+    public void deserialize(ArrayList<ArrayList<Cell>> matrix, int x, int y, BitSet steppedBuffer) {
+        this.matrix = matrix;
+        this.steppedBuffer = steppedBuffer;
+        this.x = x;
+        this.y = y;
     }
 
     public int[] getSize() { return new int[]{ this.x,this.y }; }
@@ -158,10 +159,10 @@ public enum CellMatrix {
     }
 
     public String toJsonFile() {
-        SerializableCellMatrix parser = new SerializableCellMatrix(this);
+        SerializableCellMatrix serialized = new SerializableCellMatrix(this);
         try {
             Gson gson = Controller.getGsonBuilder().create();
-            return gson.toJson(parser);
+            return gson.toJson(serialized);
         } catch (Exception e) {
             System.out.println("Couldn't generate json file: " + e.getMessage() + Arrays.toString(e.getStackTrace()));
             return null;
@@ -171,8 +172,8 @@ public enum CellMatrix {
     public static CellMatrix fromJsonFile(CellMatrix cellMatrix, String jsonFile) {
         try {
             Gson gson = Controller.getGsonBuilder().create();
-            SerializableCellMatrix parser = gson.fromJson(jsonFile, SerializableCellMatrix.class);
-            return parser.toCellMatrix(cellMatrix);
+            SerializableCellMatrix serialized = gson.fromJson(jsonFile, SerializableCellMatrix.class);
+            return serialized.deserialize(cellMatrix);
         } catch (Exception e) {
             System.out.println("Couldn't load from json file: " + e.getMessage() + Arrays.toString(e.getStackTrace()));
             return null;

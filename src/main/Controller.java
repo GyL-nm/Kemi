@@ -20,8 +20,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class Controller {
@@ -76,13 +74,13 @@ public class Controller {
 
             menuBar.loadItem.addActionListener(e -> {
                 System.out.println("Loading from file");
-                loadMatrixToFile(model, view);
-                view.matrixPanel.repaint();
+                loadMatrixFromFile(model, view);
+                view.setMatrixImage(model.matrixAsImage());
             });
             menuBar.saveItem.addActionListener(e -> {
                 System.out.println("Saving to file");
                 saveMatrixToFile(model, view);
-                view.matrixPanel.repaint();
+                view.setMatrixImage(model.matrixAsImage());
             });
 
             view.add(menuBar, BorderLayout.NORTH);
@@ -180,6 +178,7 @@ public class Controller {
 
     public static GsonBuilder getGsonBuilder() {
         return new GsonBuilder()
+                .setPrettyPrinting()
                 .registerTypeAdapter(SubstanceProperties.class, new TypeAdapter<SubstanceProperties>() {
                     @Override
                     public void write(JsonWriter out, SubstanceProperties value) throws IOException {
@@ -235,7 +234,7 @@ public class Controller {
         }
     }
 
-    public static CellMatrix loadMatrixToFile(Model model, View view) {
+    public static CellMatrix loadMatrixFromFile(Model model, View view) {
         try {
             JFileChooser loadDialog = new JFileChooser(System.getProperty("user.home"));
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Kemi save file", "kemi");

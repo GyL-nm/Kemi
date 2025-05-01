@@ -81,7 +81,7 @@ public enum SubstanceProperties {
 
     final public Color baseColour;
 
-    final transient private Class<? extends Substance> substanceReference;
+    final private Class<? extends Substance> substanceReference;
 
     private SubstanceProperties(double heatTransferFactor, double mass, Class<? extends Substance> substanceReference, Color baseColour) {
         this.mass = mass;
