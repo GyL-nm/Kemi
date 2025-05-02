@@ -182,12 +182,11 @@ public class Cell {
                     for (Cell cell : row) {
                         if (cell == null || cell == this) continue;
 
-                        if (cell.substance.properties.getSubstanceReference() == phase.reactant() ||
-                        cell.substance.properties.getSubstanceReference() == Empty.class) {
+                        if (cell.substance.properties.getSubstanceReference() == phase.reactant()) {
                             cellMatrix.setCell(Objects.requireNonNull(
                                     Cell.newCellOfType(phase.results()[1],
                                             cell.x, cell.y,
-                                            this.temperature + phase.temperatureChange())));
+                                            cell.temperature + phase.temperatureChange())));
 
                             return phase;
                         }

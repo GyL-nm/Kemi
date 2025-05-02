@@ -40,18 +40,33 @@ public abstract class Substance {
     public Class toMovableSolid() {
         if (this instanceof MovableSolid) return this.getClass();
 
-        return null;
+        String substanceName = this.getClass().getSimpleName();
+        try {
+            return Class.forName("main.substances.solid.movableSolid." + substanceName);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
     public Class toLiquid() {
         if (this instanceof Liquid) return this.getClass();
 
-        return null;
+        String substanceName = this.getClass().getSimpleName();
+        try {
+            return Class.forName("main.substances.liquid." + substanceName);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
     public Class toGas() {
         if (this instanceof Gas) return this.getClass();
 
-        return null;
+        String substanceName = this.getClass().getSimpleName();
+        try {
+            return Class.forName("main.substances.gas." + substanceName);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 }

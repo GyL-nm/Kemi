@@ -5,6 +5,8 @@ import main.reactions.Reaction;
 import main.reactions.ReactionCondition;
 import main.reactions.ReactionType;
 import main.substances.SubstanceProperties;
+import main.substances.gas.Vapour;
+import main.substances.solid.movableSolid.Ice;
 
 import java.util.ArrayList;
 
@@ -53,18 +55,28 @@ public class Water extends Liquid {
         this.phases = new ArrayList<>();
         phases.add(new Reaction(null,
                 new ReactionType[]{ReactionType.FREEZING},
-                new Class[]{main.substances.solid.movableSolid.Ice.class},
+                new Class[]{this.toMovableSolid()},
                 0,
                 new ReactionCondition[]{new ReactionCondition(ConditionType.LESSER_THAN, 0.01) }));
 
         phases.add(new Reaction(null,
                 new ReactionType[]{ReactionType.EVAPORATION},
-                new Class[]{main.substances.gas.Vapour.class},
+                new Class[]{this.toGas()},
                 0,
                 new ReactionCondition[]{new ReactionCondition(ConditionType.GREATER_THAN, 99.99) }));
     }
 
-//    @Override
+    @Override
+    public Class toGas() {
+        return Vapour.class;
+    }
+
+    @Override
+    public Class toMovableSolid() {
+        return Ice.class;
+    }
+
+    //    @Override
 //    public void transferHeat(ArrayList<ArrayList<Substance>> adjacent, CellMatrix cellMatrix) {
 //        double averageHeat = CellMatrix.flattenMatrix(adjacent).stream()
 //                .filter(java.util.Objects::nonNull)

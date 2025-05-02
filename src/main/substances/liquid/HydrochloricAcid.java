@@ -1,5 +1,6 @@
 package main.substances.liquid;
 
+import main.reactions.ConditionType;
 import main.reactions.Reaction;
 import main.reactions.ReactionCondition;
 import main.reactions.ReactionType;
@@ -43,5 +44,12 @@ public class HydrochloricAcid extends Liquid {
                 new Class[]{main.substances.solid.movableSolid.CopperChloride.class, Water.class},
                 10.0,
                 new ReactionCondition[]{} ));
+
+        this.phases = new ArrayList<>();
+        phases.add(new Reaction(this.properties.getSubstanceReference(),
+                new ReactionType[]{ReactionType.EVAPORATION},
+                new Class[]{this.toMovableSolid(), main.substances.gas.Vapour.class},
+                10.0,
+                new ReactionCondition[]{new ReactionCondition(ConditionType.GREATER_THAN, 99.99) }));
     }
 }

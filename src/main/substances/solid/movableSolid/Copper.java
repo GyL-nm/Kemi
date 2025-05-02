@@ -18,4 +18,12 @@ public class Copper extends MovableSolid {
                 10.0,
                 new ReactionCondition[]{} ));
     }
+
+    public static void main(String[] args) {
+        Copper copper = new Copper();
+
+        System.out.println("Gas: " + copper.toGas());
+        System.out.println("Liquid: " + copper.toLiquid());
+        System.out.println("Solid: " + copper.toMovableSolid());
+    }
 }
