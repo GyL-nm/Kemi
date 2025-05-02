@@ -2,6 +2,7 @@ package main.system;
 
 import main.reactions.Reaction;
 import main.reactions.ReactionCondition;
+import main.substances.Empty;
 import main.substances.Substance;
 import main.substances.solid.movableSolid.MovableSolid;
 import main.substances.solid.staticSolid.Bunsen;
@@ -38,7 +39,7 @@ public class Cell {
     public void step(CellMatrix cellMatrix) {
         ArrayList<ArrayList<Cell>> adjacent = getAdjacentCells(cellMatrix);
         exchangeHeat(adjacent);
-        phaseChange(cellMatrix);
+        phaseChange(cellMatrix, adjacent);
         react(cellMatrix, CellMatrix.flattenMatrix(adjacent));
 
         ArrayList<Cell> orderedAdjacent = getOrderedAdjacentCells(cellMatrix);
@@ -161,7 +162,7 @@ public class Cell {
         }
     }
 
-    public Reaction phaseChange(CellMatrix cellMatrix) {
+    public Reaction phaseChange(CellMatrix cellMatrix, ArrayList<ArrayList<Cell>> adjacent) {
         for (Reaction phase : substance.phases) {
             boolean passConditions = true;
             for (ReactionCondition condition : phase.conditions())
@@ -174,6 +175,24 @@ public class Cell {
                         Cell.newCellOfType(phase.results()[0],
                                 this.x, this.y,
                                 this.temperature + phase.temperatureChange())));
+
+                if (phase.reactant() == null) return phase;
+
+                for (ArrayList<Cell> row : adjacent) {
+                    for (Cell cell : row) {
+                        if (cell == null || cell == this) continue;
+
+                        if (cell.substance.properties.getSubstanceReference() == phase.reactant() ||
+                        cell.substance.properties.getSubstanceReference() == Empty.class) {
+                            cellMatrix.setCell(Objects.requireNonNull(
+                                    Cell.newCellOfType(phase.results()[1],
+                                            cell.x, cell.y,
+                                            this.temperature + phase.temperatureChange())));
+
+                            return phase;
+                        }
+                    }
+                }
 
                 return phase;
             }

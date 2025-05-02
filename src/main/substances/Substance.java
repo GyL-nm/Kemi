@@ -1,6 +1,9 @@
 package main.substances;
 
 import main.reactions.Reaction;
+import main.substances.gas.Gas;
+import main.substances.liquid.Liquid;
+import main.substances.solid.movableSolid.MovableSolid;
 import main.system.Cell;
 import main.system.CellMatrix;
 
@@ -33,4 +36,22 @@ public abstract class Substance {
 
     @Override
     public String toString() { return this.getClass().getSimpleName(); }
+
+    public Class toMovableSolid() {
+        if (this instanceof MovableSolid) return this.getClass();
+
+        return null;
+    }
+
+    public Class toLiquid() {
+        if (this instanceof Liquid) return this.getClass();
+
+        return null;
+    }
+
+    public Class toGas() {
+        if (this instanceof Gas) return this.getClass();
+
+        return null;
+    }
 }
