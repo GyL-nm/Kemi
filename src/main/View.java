@@ -10,9 +10,12 @@ import main.graphics.SubstancePanel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
 
 public class View extends JFrame {
@@ -35,7 +38,7 @@ public class View extends JFrame {
     JLabel penLabel;
 
     JSlider tempSlider;
-    JLabel tempLabel;
+    JSpinner tempSpinner;
 
     JLabel cellInfoLabel;
 
@@ -99,10 +102,43 @@ public class View extends JFrame {
         penSliderPanel.add(penLabel);
         substanceSectionPanel.add(penSliderPanel, BorderLayout.SOUTH);
 
+        tempSpinner = new JSpinner(new SpinnerNumberModel(25, -150, 1500, 1));
+        tempSpinner.setBorder(null);
+        for (Component comp : tempSpinner.getComponents()) {
+            if (comp instanceof JButton) {
+                tempSpinner.remove(comp);
+            }
+        }
+        tempSpinner.setPreferredSize(new Dimension(60,20));
+
+        JLabel celsiusLabel = new JLabel("°C");
+
         JPanel tempSliderPanel = new JPanel();
-        tempSlider = new JSlider(JSlider.VERTICAL, -80, 1500, 32);
-        tempLabel = new JLabel(tempSlider.getValue() + "C");
-        tempSliderPanel.add(tempLabel);
+        tempSlider = new JSlider(JSlider.VERTICAL, -100, 1500, 25);
+        tempSlider.setMinorTickSpacing(5);
+        tempSlider.setSnapToTicks(true);
+
+        tempSlider.setMajorTickSpacing(100);
+        tempSlider.setPaintTicks(true);
+
+        tempSlider.setUI(new BasicSliderUI(tempSlider) {
+            @Override
+            public void paintTrack(Graphics g) {
+            }
+        });
+
+        Hashtable<Integer, JLabel> tempSliderLabels = new Hashtable<>();
+        tempSliderLabels.put(-100, new JLabel("-100"));
+        tempSliderLabels.put(0, new JLabel("0"));
+        tempSliderLabels.put(100, new JLabel("100"));
+        tempSliderLabels.put(300, new JLabel("Low Bunsen"));
+        tempSliderLabels.put(1500, new JLabel("High Bunsen"));
+        tempSlider.setPaintLabels(true);
+        tempSlider.setLabelTable(tempSliderLabels);
+
+
+        tempSliderPanel.add(tempSpinner);
+        tempSliderPanel.add(celsiusLabel);
         tempSliderPanel.add(tempSlider);
         substanceSectionPanel.add(tempSliderPanel, BorderLayout.WEST);
 

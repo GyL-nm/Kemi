@@ -21,6 +21,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Controller {
     Timer simTimer;
@@ -29,6 +30,7 @@ public class Controller {
 
     int penSize;
     float bunsenTemp;
+    boolean tempSliderChange = false;
 
     Controller(Model model, View view) {
         timescale = 1;
@@ -106,10 +108,27 @@ public class Controller {
             controller.penSize = view.penSlider.getValue();
             view.penLabel.setText("Pen " + controller.penSize);
         });
+
         view.tempSlider.addChangeListener(e -> {
-            controller.bunsenTemp = view.tempSlider.getValue();
-            view.tempLabel.setText(controller.bunsenTemp + "C");
+            if (!view.tempSlider.getValueIsAdjusting()) {
+                controller.bunsenTemp = view.tempSlider.getValue();
+                view.tempSpinner.setValue(view.tempSlider.getValue());
+            }
         });
+
+        view.tempSpinner.addChangeListener(e -> {
+            controller.bunsenTemp = ((Number) view.tempSpinner.getValue()).floatValue();
+            view.tempSlider.setValue((int) view.tempSpinner.getValue());
+        });
+//        view.tempSpinner.addChangeListener(e -> {
+//            if (controller.tempSliderChange) return;
+//            controller.tempSliderChange = true;
+//
+//            controller.bunsenTemp = (float) view.tempSpinner.getValue();
+//            view.tempSlider.setValue((int) controller.bunsenTemp);
+//
+//            controller.tempSliderChange = false;
+//        });
 
         view.matrixPanel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
