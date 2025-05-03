@@ -13,8 +13,8 @@ public enum SubstanceProperties {
     AIR(0.0002236, 1200.0, Air.class, new Color(180, 220, 255, 255)),
     CHLORINE(0.0002236, 1200.0, Chlorine.class, new Color(220, 255, 180, 255)),
     HYDROGEN(0.0045226, 0.08, Hydrogen.class, new Color(230, 230, 255, 255)),
-    OXYGEN(0.0006608, 1.43, Oxygen.class, new Color(200, 240, 255, 255)),
-    VAPOUR(0.251256, 0.76, Vapour.class, new Color(180, 255, 255, 255)),
+    OXYGEN(0.0006608, 1.43, Oxygen.class, new Color(161, 228, 253, 255)),
+    VAPOUR(0.251256, 0.76, Vapour.class, new Color(223, 255, 255, 255)),
 
     WATER(0.015075, 1000, Water.class, new Color(0, 120, 255, 255)),
     COPPER_CHLORIDE_LIQUID(0.015025, 3390.0, main.substances.liquid.CopperChloride.class, new Color(0, 200, 180, 255)),
