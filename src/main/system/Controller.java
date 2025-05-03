@@ -1,4 +1,4 @@
-package main;
+package main.system;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.google.gson.*;
@@ -10,8 +10,6 @@ import main.graphics.MenuBar;
 import main.substances.Empty;
 import main.substances.Substance;
 import main.substances.SubstanceProperties;
-import main.system.Cell;
-import main.system.CellMatrix;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -21,7 +19,6 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Controller {
     Timer simTimer;
@@ -42,19 +39,16 @@ public class Controller {
         bunsenTemp = 32f;
     }
 
-    public static void main(String[] args) {
+    public static void run() {
         Model model = new Model(9);
         model.cellMatrix.setSize(101,101);
         model.cellMatrix.fill(Empty.class, 25.0);
-//        model.cellMatrix.fillRandom();
 
         FlatDarculaLaf.setup();
         FontLoader.loadFonts();
         View view = new View(model.matrixAsImage(), new Point(27,27),9);
 
         Controller controller = new Controller(model,view);
-
-        // view.menuBar.tutorialFiles.put();
 
         try {
             MenuBar menuBar = new MenuBar();
@@ -120,15 +114,6 @@ public class Controller {
             controller.bunsenTemp = ((Number) view.tempSpinner.getValue()).floatValue();
             view.tempSlider.setValue((int) view.tempSpinner.getValue());
         });
-//        view.tempSpinner.addChangeListener(e -> {
-//            if (controller.tempSliderChange) return;
-//            controller.tempSliderChange = true;
-//
-//            controller.bunsenTemp = (float) view.tempSpinner.getValue();
-//            view.tempSlider.setValue((int) controller.bunsenTemp);
-//
-//            controller.tempSliderChange = false;
-//        });
 
         view.matrixPanel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override

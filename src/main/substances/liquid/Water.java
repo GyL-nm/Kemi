@@ -1,9 +1,6 @@
 package main.substances.liquid;
 
-import main.reactions.ConditionType;
-import main.reactions.Reaction;
-import main.reactions.ReactionCondition;
-import main.reactions.ReactionType;
+import main.reactions.*;
 import main.substances.SubstanceProperties;
 import main.substances.gas.Vapour;
 import main.substances.solid.movableSolid.Ice;
@@ -16,62 +13,24 @@ public class Water extends Liquid {
         properties = PROPERTIES;
 
         this.reactions = new ArrayList<>();
-        reactions.add(new Reaction( main.substances.solid.movableSolid.CopperChloride.class,
-                new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{main.substances.liquid.CopperChloride.class, main.substances.liquid.CopperChloride.class},
-                0.85,
-                new ReactionCondition[]{} ));
-
-        reactions.add(new Reaction( main.substances.solid.movableSolid.CopperSulphate.class,
-                new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{main.substances.liquid.CopperSulphate.class, main.substances.liquid.CopperSulphate.class},
-                0.70,
-                new ReactionCondition[]{} ));
-
-        reactions.add(new Reaction( main.substances.solid.movableSolid.HydrochloricAcid.class,
-                new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{main.substances.liquid.HydrochloricAcid.class, main.substances.liquid.HydrochloricAcid.class},
-                0.77,
-                new ReactionCondition[]{} ));
-
-        reactions.add(new Reaction( main.substances.solid.movableSolid.SodiumChloride.class,
-                new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{main.substances.liquid.SodiumChloride.class, main.substances.liquid.SodiumChloride.class},
-                -0.01,
-                new ReactionCondition[]{} ));
-
-        reactions.add(new Reaction( main.substances.solid.movableSolid.SodiumHydroxide.class,
-                new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{main.substances.liquid.SodiumHydroxide.class, main.substances.liquid.SodiumHydroxide.class},
-                0.47,
-                new ReactionCondition[]{} ));
-
-        reactions.add(new Reaction( main.substances.solid.movableSolid.SodiumSulphate.class,
-                new ReactionType[]{ReactionType.DISSOLUTION},
-                new Class[]{main.substances.liquid.SodiumSulphate.class, main.substances.liquid.SodiumSulphate.class},
-                0.21,
-                new ReactionCondition[]{} ));
-
-        reactions.add(new Reaction( main.substances.solid.staticSolid.Cathode.class,
-                new ReactionType[]{ReactionType.ELECTROLYSIS},
+        reactions.add(new ElectrolysisReaction( main.substances.solid.staticSolid.Cathode.class,
                 new Class[]{main.substances.gas.Hydrogen.class, main.substances.solid.staticSolid.Cathode.class},
                 -3.05,
                 new ReactionCondition[]{} ));
 
-        reactions.add(new Reaction( main.substances.solid.staticSolid.Anode.class,
-                new ReactionType[]{ReactionType.ELECTROLYSIS},
+        reactions.add(new ElectrolysisReaction( main.substances.solid.staticSolid.Anode.class,
                 new Class[]{main.substances.gas.Oxygen.class, main.substances.solid.staticSolid.Anode.class},
                 -3.05,
                 new ReactionCondition[]{} ));
 
         this.phases = new ArrayList<>();
-        phases.add(new Reaction(null,
+        phases.add(new PhaseChange(null,
                 new ReactionType[]{ReactionType.FREEZING},
                 new Class[]{this.toMovableSolid()},
                 0.08,
                 new ReactionCondition[]{new ReactionCondition(ConditionType.LESSER_THAN, 0.01) }));
 
-        phases.add(new Reaction(null,
+        phases.add(new PhaseChange(null,
                 new ReactionType[]{ReactionType.EVAPORATION},
                 new Class[]{this.toGas()},
                 0,

@@ -1,7 +1,6 @@
 package main.system;
 
-import main.reactions.Reaction;
-import main.reactions.ReactionCondition;
+import main.reactions.*;
 import main.substances.Empty;
 import main.substances.Substance;
 import main.substances.solid.movableSolid.MovableSolid;
@@ -163,7 +162,7 @@ public class Cell {
     }
 
     public Reaction phaseChange(CellMatrix cellMatrix, ArrayList<ArrayList<Cell>> adjacent) {
-        for (Reaction phase : substance.phases) {
+        for (PhaseChange phase : substance.phases) {
             if (phase.reactant() == null) {
                 boolean passConditions = true;
                 for (ReactionCondition condition : phase.conditions())
@@ -245,63 +244,39 @@ public class Cell {
     }
 
     public Reaction react(CellMatrix cellMatrix, ArrayList<Cell> reactionCandidates) {
-        AbstractMap.SimpleEntry<Cell,Integer> priorityCell = null;
-        Reaction priorityReaction = null;
-
-
         for (Cell cell : reactionCandidates) {
-            if (cell == null) { continue; }
+            if (cell == null) continue;
+            Reaction reaction = ReactionReference.REACTION_MAP.get(this.substance.properties.getSubstanceReference(),cell.substance.properties.getSubstanceReference());
+            ElectrolysisReaction electrolysisReaction = null;
+            for (Reaction r : this.substance.reactions) {
+                if (!(r instanceof ElectrolysisReaction)) continue;
+                ElectrolysisReaction er = (ElectrolysisReaction) r;
 
-            ArrayList<ArrayList<Reaction>> combinedReactions = new ArrayList<>();
-            combinedReactions.add(substance.reactions);
-            combinedReactions.add(cell.substance.reactions);
-
-            for (ArrayList<Reaction> reactions : combinedReactions) {
-                for (Reaction reaction : reactions) {
-                    boolean passConditions = true;
-                    if (reaction.reactant().equals(cell.substance.getClass())) {
-                        for (ReactionCondition condition : reaction.conditions())
-                            if (!condition.condition(this.temperature)) {
-                                passConditions = false;
-                                break;
-                            }
-                        if (!passConditions) {
-                            continue;
-                        }
-
-                        if (reactions.get(0) == reaction) {
-                            if (reaction.results()[0] != null) cellMatrix.setCell(Objects.requireNonNull(
-                                                Cell.newCellOfType(reaction.results()[0],
-                                                        this.x, this.y,
-                                                        this.temperature + reaction.temperatureChange())));
-                            if (reaction.results()[1] != null) cellMatrix.setCell(
-                                                Objects.requireNonNull(Cell.newCellOfType(reaction.results()[1],
-                                                        cell.x, cell.y,
-                                                        cell.temperature + reaction.temperatureChange())));
-                            return reaction;
-                        }
-
-                        int index = reactions.indexOf(reaction);
-                        if (priorityCell == null
-                                || index < priorityCell.getValue()) {
-                            priorityCell = new AbstractMap.SimpleEntry<>(cell, index);
-                            priorityReaction = reaction;
-                        }
-                    }
+                if (er.facilitator() == cell.substance.properties.getSubstanceReference()) {
+                    electrolysisReaction = er;
+                    break;
                 }
             }
-        }
-        if (priorityCell != null) {
-            if (priorityReaction.results()[0] != null) cellMatrix.setCell(Objects.requireNonNull(
-                                                        Cell.newCellOfType( priorityReaction.results()[0],
-                                                                            this.x, this.y,
-                                                                            this.temperature + priorityReaction.temperatureChange())));
+            if (electrolysisReaction != null) reaction = electrolysisReaction;
+            if (reaction == null) continue;
 
-            if (priorityReaction.results()[1] != null) cellMatrix.setCell(Objects.requireNonNull(
-                                                        Cell.newCellOfType( priorityReaction.results()[1],
-                                                                            priorityCell.getKey().x, priorityCell.getKey().y,
-                                                                priorityCell.getKey().temperature + priorityReaction.temperatureChange())));
-            return priorityReaction;
+            boolean passConditions = true;
+            for (ReactionCondition condition : reaction.conditions())
+                if (!condition.condition(this.temperature)) {
+                    passConditions = false;
+                    break;
+                }
+            if (passConditions) {
+                if (reaction.results()[0] != null) cellMatrix.setCell(Objects.requireNonNull(
+                        Cell.newCellOfType(reaction.results()[0],
+                                this.x, this.y,
+                                this.temperature + reaction.temperatureChange())));
+                if (reaction.results()[1] != null) cellMatrix.setCell(
+                        Objects.requireNonNull(Cell.newCellOfType(reaction.results()[1],
+                                cell.x, cell.y,
+                                cell.temperature + reaction.temperatureChange())));
+                return reaction;
+            }
         }
         return null;
     }

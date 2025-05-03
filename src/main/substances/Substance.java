@@ -1,5 +1,6 @@
 package main.substances;
 
+import main.reactions.PhaseChange;
 import main.reactions.Reaction;
 import main.substances.gas.Gas;
 import main.substances.liquid.Liquid;
@@ -30,7 +31,7 @@ public abstract class Substance {
     public ArrayList<Cell> getReactionCandidates(ArrayList<ArrayList<Cell>> adjacent) { return CellMatrix.flattenMatrix(adjacent); }
 
     public ArrayList<Reaction> reactions = new ArrayList<>();
-    public ArrayList<Reaction> phases = new ArrayList<>();
+    public ArrayList<PhaseChange> phases = new ArrayList<>();
 
 //    public abstract void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> diffuseCandidates);
 

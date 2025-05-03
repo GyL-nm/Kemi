@@ -17,10 +17,5 @@ public class Oxygen extends Gas {
         properties = PROPERTIES;
 
         this.reactions = new ArrayList<>();
-        reactions.add(new Reaction( Hydrogen.class,
-                new ReactionType[]{ReactionType.REDOX,ReactionType.SYNTHESIS},
-                new Class[]{Water.class, Water.class},
-                3.0,
-                new ReactionCondition[]{new ReactionCondition(ConditionType.GREATER_THAN, 299.99)}));
     }
 }

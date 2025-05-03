@@ -1,4 +1,4 @@
-package main;
+package main.system;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import main.graphics.FPSGraphic;
@@ -10,11 +10,9 @@ import main.graphics.SubstancePanel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
 

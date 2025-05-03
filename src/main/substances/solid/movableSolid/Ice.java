@@ -1,9 +1,6 @@
 package main.substances.solid.movableSolid;
 
-import main.reactions.ConditionType;
-import main.reactions.Reaction;
-import main.reactions.ReactionCondition;
-import main.reactions.ReactionType;
+import main.reactions.*;
 import main.substances.SubstanceProperties;
 import main.substances.gas.Vapour;
 import main.substances.liquid.Water;
@@ -19,13 +16,13 @@ public class Ice extends MovableSolid {
         this.reactions = new Water().reactions;
 
         this.phases = new ArrayList<>();
-        phases.add(new Reaction(null,
+        phases.add(new PhaseChange(null,
                 new ReactionType[]{ReactionType.SUBLIMATION},
                 new Class[]{this.toGas()},
                 0,
                 new ReactionCondition[]{new ReactionCondition(ConditionType.GREATER_THAN, 99.99) }));
 
-        phases.add(new Reaction(null,
+        phases.add(new PhaseChange(null,
                 new ReactionType[]{ReactionType.MELTING},
                 new Class[]{this.toLiquid()},
                 0,

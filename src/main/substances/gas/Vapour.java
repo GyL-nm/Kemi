@@ -1,9 +1,6 @@
 package main.substances.gas;
 
-import main.reactions.ConditionType;
-import main.reactions.Reaction;
-import main.reactions.ReactionCondition;
-import main.reactions.ReactionType;
+import main.reactions.*;
 import main.substances.SubstanceProperties;
 import main.substances.liquid.Water;
 import main.substances.solid.movableSolid.Ice;
@@ -21,13 +18,13 @@ public class Vapour extends Gas {
 //        this.reactions = new Water().reactions;
 
         this.phases = new ArrayList<>();
-        phases.add(new Reaction(null,
+        phases.add(new PhaseChange(null,
                 new ReactionType[]{ReactionType.DEPOSITION},
                 new Class[]{this.toMovableSolid()},
                 0.4,
                 new ReactionCondition[]{new ReactionCondition(ConditionType.LESSER_THAN, 0.01) }));
 
-        phases.add(new Reaction(null,
+        phases.add(new PhaseChange(null,
                 new ReactionType[]{ReactionType.CONDENSATION},
                 new Class[]{this.toLiquid()},
                 0.3,

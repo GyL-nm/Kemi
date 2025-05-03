@@ -1,4 +1,4 @@
-package main;
+package main.system;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import main.substances.Empty;
@@ -7,8 +7,6 @@ import main.substances.liquid.Liquid;
 import main.substances.solid.Solid;
 import main.substances.solid.staticSolid.Anode;
 import main.substances.solid.staticSolid.Cathode;
-import main.system.Cell;
-import main.system.CellMatrix;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
