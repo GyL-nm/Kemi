@@ -7,7 +7,6 @@ import main.substances.liquid.Liquid;
 import main.substances.solid.Solid;
 import main.substances.solid.staticSolid.Anode;
 import main.substances.solid.staticSolid.Cathode;
-import main.substances.solid.staticSolid.Electrode;
 import main.system.Cell;
 import main.system.CellMatrix;
 

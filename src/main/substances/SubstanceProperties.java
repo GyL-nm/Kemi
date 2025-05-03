@@ -41,7 +41,7 @@ public enum SubstanceProperties {
     BUNSEN(1.0, Double.POSITIVE_INFINITY, Bunsen.class, new Color(100, 100, 100, 255)),
     ANODE(0.0, Double.POSITIVE_INFINITY, Anode.class, new Color(60, 60, 60, 255)),
     CATHODE(0.0, Double.POSITIVE_INFINITY, Cathode.class, new Color(60, 60, 60, 255)),
-    GRAPHITE(0.0, Double.POSITIVE_INFINITY, Electrode.class, new Color(60, 60, 60, 255)),
+    GRAPHITE(0.0, Double.POSITIVE_INFINITY, Graphite.class, new Color(60, 60, 60, 255)),
 //    STIRRER(0.0027015, Double.POSITIVE_INFINITY, Stirrer.class, new Color(180, 180, 180, 255)),
 //    THERMOMETER(0.0027015, Double.POSITIVE_INFINITY, Thermometer.class, new Color(200, 200, 255, 255))
     ;
