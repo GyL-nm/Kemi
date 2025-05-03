@@ -11,7 +11,7 @@ import main.substances.solid.movableSolid.Ice;
 import java.util.ArrayList;
 
 public class Vapour extends Gas {
-    final private SubstanceProperties PROPERTIES = SubstanceProperties.OXYGEN;
+    final private SubstanceProperties PROPERTIES = SubstanceProperties.VAPOUR;
 
 
 
