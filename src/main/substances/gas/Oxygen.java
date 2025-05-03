@@ -1,5 +1,6 @@
 package main.substances.gas;
 
+import main.reactions.ConditionType;
 import main.reactions.Reaction;
 import main.reactions.ReactionCondition;
 import main.reactions.ReactionType;
@@ -19,7 +20,7 @@ public class Oxygen extends Gas {
         reactions.add(new Reaction( Hydrogen.class,
                 new ReactionType[]{ReactionType.REDOX,ReactionType.SYNTHESIS},
                 new Class[]{Water.class, Water.class},
-                10.0,
-                new ReactionCondition[]{}));
+                3.0,
+                new ReactionCondition[]{new ReactionCondition(ConditionType.GREATER_THAN, 299.99)}));
     }
 }

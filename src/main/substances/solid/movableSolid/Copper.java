@@ -11,12 +11,6 @@ public class Copper extends MovableSolid {
 
     public Copper() {
         properties = PROPERTIES;
-
-        reactions.add(new Reaction( Water.class,
-                new ReactionType[]{ReactionType.OXIDATION},
-                new Class[]{CopperOxide.class, Water.class},
-                10.0,
-                new ReactionCondition[]{} ));
     }
 
     public static void main(String[] args) {

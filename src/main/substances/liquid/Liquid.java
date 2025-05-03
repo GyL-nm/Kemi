@@ -16,8 +16,8 @@ public abstract class Liquid extends Substance {
     public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
         ArrayList<Cell> moveCandidates = new ArrayList<>();
         moveCandidates.add(adjacent.get(2).get(1)); // immediate below
-        moveCandidates.add(adjacent.get(1).get(0)); // immediate left
-        moveCandidates.add(adjacent.get(1).get(2)); // immediate right
+        moveCandidates.add(adjacent.get(2).get(0)); // below left
+        moveCandidates.add(adjacent.get(2).get(2)); // below right
 
         return moveCandidates;
     }

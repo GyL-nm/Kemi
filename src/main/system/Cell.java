@@ -164,36 +164,80 @@ public class Cell {
 
     public Reaction phaseChange(CellMatrix cellMatrix, ArrayList<ArrayList<Cell>> adjacent) {
         for (Reaction phase : substance.phases) {
-            boolean passConditions = true;
-            for (ReactionCondition condition : phase.conditions())
-                if (!condition.condition(this.temperature)) {
-                    passConditions = false;
-                    break;
+            if (phase.reactant() == null) {
+                boolean passConditions = true;
+                for (ReactionCondition condition : phase.conditions())
+                    if (!condition.condition(this.temperature)) {
+                        passConditions = false;
+                        break;
+                    }
+                if (passConditions) {
+                    cellMatrix.setCell(Objects.requireNonNull(
+                            Cell.newCellOfType(phase.results()[0],
+                                    this.x, this.y,
+                                    this.temperature + phase.temperatureChange())));
+
+                    return phase;
                 }
-            if (passConditions) {
-                cellMatrix.setCell(Objects.requireNonNull(
-                        Cell.newCellOfType(phase.results()[0],
-                                this.x, this.y,
-                                this.temperature + phase.temperatureChange())));
 
-                if (phase.reactant() == null) return phase;
-
+            } else {
                 for (ArrayList<Cell> row : adjacent) {
                     for (Cell cell : row) {
                         if (cell == null || cell == this) continue;
 
                         if (cell.substance.properties.getSubstanceReference() == phase.reactant()) {
-                            cellMatrix.setCell(Objects.requireNonNull(
-                                    Cell.newCellOfType(phase.results()[1],
-                                            cell.x, cell.y,
-                                            cell.temperature + phase.temperatureChange())));
+                            boolean passConditions = true;
+                            for (ReactionCondition condition : phase.conditions())
+                                if (!condition.condition(this.temperature)) {
+                                    passConditions = false;
+                                    break;
+                                }
+                            if (passConditions) {
+                                cellMatrix.setCell(Objects.requireNonNull(
+                                        Cell.newCellOfType(phase.results()[0],
+                                                this.x, this.y,
+                                                this.temperature + phase.temperatureChange())));
 
-                            return phase;
+                                cellMatrix.setCell(Objects.requireNonNull(
+                                        Cell.newCellOfType(phase.results()[1],
+                                                cell.x, cell.y,
+                                                cell.temperature + phase.temperatureChange())));
+
+                                return phase;
+                            }
                         }
                     }
                 }
 
-                return phase;
+                // fallback
+                for (ArrayList<Cell> row : adjacent) {
+                    for (Cell cell : row) {
+                        if (cell == null || cell == this) continue;
+
+                        if (cell.substance.properties.getSubstanceReference() == phase.reactant() ||
+                        cell.substance.properties.getSubstanceReference() == Empty.class) {
+                            boolean passConditions = true;
+                            for (ReactionCondition condition : phase.conditions())
+                                if (!condition.condition(this.temperature)) {
+                                    passConditions = false;
+                                    break;
+                                }
+                            if (passConditions) {
+                                cellMatrix.setCell(Objects.requireNonNull(
+                                        Cell.newCellOfType(phase.results()[0],
+                                                this.x, this.y,
+                                                this.temperature + phase.temperatureChange())));
+
+                                cellMatrix.setCell(Objects.requireNonNull(
+                                        Cell.newCellOfType(phase.results()[1],
+                                                cell.x, cell.y,
+                                                cell.temperature + phase.temperatureChange())));
+
+                                return phase;
+                            }
+                        }
+                    }
+                }
             }
         }
 

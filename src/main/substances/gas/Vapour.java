@@ -24,13 +24,13 @@ public class Vapour extends Gas {
         phases.add(new Reaction(null,
                 new ReactionType[]{ReactionType.DEPOSITION},
                 new Class[]{this.toMovableSolid()},
-                0,
+                0.4,
                 new ReactionCondition[]{new ReactionCondition(ConditionType.LESSER_THAN, 0.01) }));
 
         phases.add(new Reaction(null,
                 new ReactionType[]{ReactionType.CONDENSATION},
                 new Class[]{this.toLiquid()},
-                0,
+                0.3,
                 new ReactionCondition[]{new ReactionCondition(ConditionType.LESSER_THAN, 99.99) }));
     }
 

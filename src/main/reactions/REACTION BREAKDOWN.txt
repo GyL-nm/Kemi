@@ -10,12 +10,12 @@ HYDROGEN
 OXYGEN *
 
 VAPOUR
-	null null condensation,exothermic WATER 0 > temp > 100
-	null null deposition,exothermic ICE 0 > temp
+	null null condensation,exothermic WATER 0 > temp > 100 *
+	null null deposition,exothermic ICE 0 > temp *
 
 WATER
-	null null evaporation,endothermic VAPOUR temp > 100
-	null null freezing,exothermic ICE 0 > temp
+	null null evaporation,endothermic VAPOUR temp > 100 *
+ 	null null freezing,exothermic ICE 0 > temp *
 
 	COPPER_CHLORIDE_SOLID null dissolution,exothermic COPPER_CHLORIDE_LIQUID *
 	COPPER_SULPHATE_SOLID null dissolution,exothermic COPPER_SULPHATE_LIQUID *
@@ -24,17 +24,17 @@ WATER
 	SODIUM_HYDROXIDE_SOLID null dissolution,exothermic SODIUM_HYDROXIDE_LIQUID *
 	SODIUM_SULPHATE_SOLID null dissolution,exothermic SODIUM_SULPHATE_LIQUID *
 
-	null ELECTRODE electrolysis,endothermic HYDROGEN,OXYGEN
+	null ELECTRODE electrolysis,endothermic HYDROGEN,OXYGEN *
 
 COPPER_CHLORIDE_LIQUID
-	null null crystalisation,exothermic COPPER_CHLORIDE_SOLID temp > 100
+	null null crystalisation,exothermic COPPER_CHLORIDE_SOLID temp > 100 *
 
 	SODIUM_HYDROXIDE_LIQUID null double_displacement,exothermic SODIUM_CHLORIDE_LIQUID,COPPER_HYDROXIDE_SOLID *
 	SULFURIC_ACID null neutralisation,exothermic COPPER_SULPHATE_SOLID,WATER *
 
 	SODIUM_HYDROXIDE_SOLID null double_displacement,exothermic SODIUM_CHLORIDE_LIQUID,COPPER_HYDROXIDE_SOLID *
 
-	null ELECTRODE electrolysis,endothermic COPPER,CHLORINE
+	null ELECTRODE electrolysis,endothermic COPPER,CHLORINE *
 
 COPPER_SULPHATE_LIQUID
 	null null crystalisation,exothermic COPPER_SULPHATE_SOLID temp > 100
@@ -44,7 +44,7 @@ COPPER_SULPHATE_LIQUID
 
 	SODIUM_HYDROXIDE_SOLID null double_displacement,exothermic SODIUM_SULPHATE_LIQUID,COPPER_HYDROXIDE_SOLID *
 
-	null ELECTRODE electrolysis,endothermic COPPER,OXYGEN
+	null ELECTRODE electrolysis,endothermic COPPER,OXYGEN *
 
 HYDROCHLORIC_ACID_LIQUID
 	null null crystalisation,exothermic HYDROCHLORIC_ACID_SOLID temp > 100
@@ -56,20 +56,20 @@ HYDROCHLORIC_ACID_LIQUID
 	SODIUM_HYDROXIDE_SOLID null neutralisation,exothermic SODIUM_CHLORIDE_SOLID,WATER *
 	SODIUM_SULPHATE_SOLID null neutralisation,exothermic SODIUM_CHLORIDE_SOLID,SULFURIC_ACID *
 
-	null ELECTRODE electrolysis,endothermic HYDROGEN,CHLORINE
+	null ELECTRODE electrolysis,endothermic HYDROGEN,CHLORINE *
 
 
 SODIUM_CHLORIDE_LIQUID
 	null null crystalisation,exothermic SODIUM_CHLORIDE_SOLID temp > 100
 
-	null ELECTRODE electrolysis,endothermic HYDROGEN,CHLORINE
+	null ELECTRODE electrolysis,endothermic HYDROGEN,CHLORINE *
 
 SODIUM_HYDROXIDE_LIQUID
 	null null crystalisation,exothermic SODIUM_HYDROXIDE_SOLID temp > 100
 
 	COPPER null double_displacement,exothermic COPPER_HYDROXIDE,WATER *
 
-	null ELECTRODE electrolysis,endothermic HYDROGEN,OXYGEN
+	null ELECTRODE electrolysis,endothermic HYDROGEN,OXYGEN *
 
 SODIUM_SULPHATE_LIQUID
 	null null crystalisation,exothermic SODIUM_SULPHATE_SOLID temp > 100

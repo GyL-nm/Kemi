@@ -5,6 +5,9 @@ import main.substances.Empty;
 import main.substances.gas.Gas;
 import main.substances.liquid.Liquid;
 import main.substances.solid.Solid;
+import main.substances.solid.staticSolid.Anode;
+import main.substances.solid.staticSolid.Cathode;
+import main.substances.solid.staticSolid.Electrode;
 import main.system.Cell;
 import main.system.CellMatrix;
 
@@ -36,7 +39,8 @@ public class Model {
         int[] imageData = new int[x*cellPixelSize * y*cellPixelSize];
         for (int row = 0; row < y; row++) {
             for (int col = 0; col < x; col++) {
-                Color colour = cellMatrix.getCell(row,col).substance.properties.baseColour;
+                Cell cell = cellMatrix.getCell(row, col);
+                Color colour = cell.substance.properties.baseColour;
                 int argb = (colour.getAlpha() << 24) | colour.getRGB();
 
                 for (int dy = 0; dy < cellPixelSize; dy++) {
@@ -45,6 +49,31 @@ public class Model {
                         int scaledCol = col * cellPixelSize + dx;
                         int index = scaledCol * pixelX + scaledRow;
                         imageData[index] = argb;
+                    }
+                }
+
+                if (cell.substance instanceof Anode) {
+                    argb = (Anode.marker.getAlpha() << 24) | Anode.marker.getRGB();
+
+                    for (int dy = 0; dy < (int) (double) cellPixelSize/2.0; dy++) {
+                        for (int dx = 0; dx < (int) (double) cellPixelSize/2.0; dx++) {
+                            int scaledRow = row * cellPixelSize + dy;
+                            int scaledCol = col * cellPixelSize + dx;
+                            int index = scaledCol * pixelX + scaledRow;
+                            imageData[index] = argb;
+                        }
+                    }
+                }
+
+                if (cell.substance instanceof Cathode) {
+                    argb = (Cathode.marker.getAlpha() << 24) | Cathode.marker.getRGB();
+                    for (int dy = 0; dy < (int) (double) cellPixelSize/2.0; dy++) {
+                        for (int dx = 0; dx < (int) (double) cellPixelSize/2.0; dx++) {
+                            int scaledRow = row * cellPixelSize + dy;
+                            int scaledCol = col * cellPixelSize + dx;
+                            int index = scaledCol * pixelX + scaledRow;
+                            imageData[index] = argb;
+                        }
                     }
                 }
             }

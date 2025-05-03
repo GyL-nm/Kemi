@@ -18,7 +18,19 @@ public class SulfuricAcid extends Liquid {
         reactions.add(new Reaction( main.substances.solid.movableSolid.CopperOxide.class,
                 new ReactionType[]{ReactionType.DOUBLE_DISPLACEMENT},
                 new Class[]{Water.class, main.substances.solid.movableSolid.CopperSulphate.class},
-                10.0,
+                1.8,
+                new ReactionCondition[]{} ));
+
+        reactions.add(new Reaction( main.substances.solid.staticSolid.Cathode.class,
+                new ReactionType[]{ReactionType.ELECTROLYSIS},
+                new Class[]{main.substances.gas.Hydrogen.class, main.substances.solid.staticSolid.Cathode.class},
+                -0.7,
+                new ReactionCondition[]{} ));
+
+        reactions.add(new Reaction( main.substances.solid.staticSolid.Anode.class,
+                new ReactionType[]{ReactionType.ELECTROLYSIS},
+                new Class[]{main.substances.gas.Oxygen.class, main.substances.solid.staticSolid.Anode.class},
+                -0.7,
                 new ReactionCondition[]{} ));
 
 //        this.phases = new ArrayList<>();
