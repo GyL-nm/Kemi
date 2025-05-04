@@ -22,18 +22,17 @@ sourceSets {
         java {
             srcDirs = ['src/test/java']
         }
-        resources {
-            srcDirs = ['src/main/resources']
-        }
     }
 }
 dependencies {
     implementation 'com.formdev:flatlaf:3.2'
     implementation 'com.google.code.gson:gson:2.10.1'
 
-    implementation platform('org.junit:junit-bom:5.10.0')
-    implementation 'org.junit.jupiter:junit-jupiter'
-    implementation 'junit:junit:4.13.2'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'junit:junit:4.13.2'
 }
 
 application {
