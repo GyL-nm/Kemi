@@ -292,17 +292,17 @@ public class Controller {
     }
 
     private Timer getSimTimer(Model model, View viewFrame, int timescaleReciprocal) {
-        double frameRate = (double) (1000*timescale) / (double) 30;
+        double frameRate = (double) (1000*timescale) / (double) 60;
 
-        FPSCounter fpsCounter = new FPSCounter();
+//        FPSCounter fpsCounter = new FPSCounter();
 
         Timer timer = new Timer((int) frameRate, e -> {
             step(model, viewFrame);
 
-            fpsCounter.frame();
+//            fpsCounter.frame();
 
-            viewFrame.fpsComponent.fps = fpsCounter.fps;
-            viewFrame.fpsComponent.repaint();
+//            viewFrame.fpsComponent.fps = fpsCounter.fps;
+//            viewFrame.fpsComponent.repaint();
         });
         return timer;
     }

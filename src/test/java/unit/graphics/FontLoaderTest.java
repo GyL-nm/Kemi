@@ -1,13 +1,11 @@
 package unit.graphics;
-import java.util.Arrays;
+
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import graphics.FontLoader;
-import org.junit.jupiter.api.Test;
-
+import java.util.Arrays;
 import java.awt.*;
-import java.io.InputStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 public class FontLoaderTest {

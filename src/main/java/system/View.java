@@ -53,7 +53,7 @@ public class View extends JFrame {
         Splashscreen splashscreen = new Splashscreen();
 
         matrixPanel = new MatrixGraphic(initialImage, imagePosition.x,imagePosition.y,9);
-        fpsComponent = new FPSGraphic(this, 0, Color.black, Color.red);
+//        fpsComponent = new FPSGraphic(this, 0, Color.black, Color.red);
 
         this.setTitle("Kemi [ケミ]");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -152,7 +152,7 @@ public class View extends JFrame {
 
         this.add(rightPanel, BorderLayout.EAST);
 
-        this.add(fpsComponent,BorderLayout.SOUTH);
+//        this.add(fpsComponent,BorderLayout.SOUTH);
 
 
         this.pack();
