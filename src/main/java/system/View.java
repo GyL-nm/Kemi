@@ -20,7 +20,7 @@ public class View extends JFrame {
     MenuBar menuBar;
 
     MatrixGraphic matrixPanel;
-    FPSGraphic fpsComponent;
+//    FPSGraphic fpsComponent;
     SubstancePanel substancePanel;
 
     JPanel controls;
@@ -80,6 +80,9 @@ public class View extends JFrame {
         stepButton = new JButton("Step");
         simControls.add(startButton);
         simControls.add(stopButton);
+
+        startButton.setPreferredSize(new Dimension(200,200));
+        stopButton.setPreferredSize(new Dimension(200,200));
 
         controls.add(simControls, BorderLayout.NORTH);
         controls.add(stepButton, BorderLayout.CENTER);

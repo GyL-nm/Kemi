@@ -38,7 +38,7 @@ public enum SubstanceProperties {
 
     COPPER_SOLID(1.0, 8940.0, substances.solid.staticSolid.Copper.class, new Color(200, 90, 30, 255)),
     BEAKER(0.0027015, Double.POSITIVE_INFINITY, Beaker.class, new Color(220, 220, 220, 255)),
-    BUNSEN(1.0, Double.POSITIVE_INFINITY, Bunsen.class, new Color(100, 100, 100, 255)),
+    TEMP_RADIATOR(1.0, Double.POSITIVE_INFINITY, TempRadiator.class, new Color(100, 100, 100, 255)),
     ANODE(0.0, Double.POSITIVE_INFINITY, Anode.class, new Color(60, 60, 60, 255)),
     CATHODE(0.0, Double.POSITIVE_INFINITY, Cathode.class, new Color(60, 60, 60, 255)),
     GRAPHITE(0.0, Double.POSITIVE_INFINITY, Graphite.class, new Color(60, 60, 60, 255)),

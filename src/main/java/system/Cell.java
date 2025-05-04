@@ -4,7 +4,7 @@ import reactions.*;
 import substances.Empty;
 import substances.Substance;
 import substances.solid.movableSolid.MovableSolid;
-import substances.solid.staticSolid.Bunsen;
+import substances.solid.staticSolid.TempRadiator;
 import substances.solid.staticSolid.StaticSolid;
 
 import java.util.ArrayList;
@@ -133,7 +133,7 @@ public class Cell {
     protected void settle(CellMatrix cellMatrix, ArrayList<Cell> settleCandidates) {}
 
     public void exchangeHeat(ArrayList<ArrayList<Cell>> adjacent) {
-        if (substance instanceof Bunsen) {
+        if (substance instanceof TempRadiator) {
             return;
         }
 
@@ -152,7 +152,7 @@ public class Cell {
                 temperature += heatExchanged;
                 temperature = Math.max(minTemp, Math.min(maxTemp, temperature));
 
-                if (!(cell.substance instanceof Bunsen)) {
+                if (!(cell.substance instanceof TempRadiator)) {
                     cell.temperature -= heatExchanged;
                     cell.temperature = Math.max(minTemp, Math.min(maxTemp, cell.temperature));
                 }

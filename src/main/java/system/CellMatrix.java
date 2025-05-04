@@ -5,6 +5,7 @@ import serializable.SerializableCellMatrix;
 import substances.Empty;
 import substances.Substance;
 import substances.SubstanceProperties;
+import substances.solid.staticSolid.StaticSolid;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -103,6 +104,30 @@ public enum CellMatrix {
     public void setCell(Cell cell) {
 //        System.out.println("("+ cell.x +","+ cell.y +") = " +cell);
         matrix.get(cell.y).set(cell.x,cell);
+    }
+
+    public boolean displaceAndSetCell(Cell cell) {
+        int x = cell.x;
+        int y = cell.y;
+        Cell freespace = null;
+        for (int dy = y; dy >= 0; dy--) {
+            if (matrix.get(dy).get(x).substance instanceof Empty) {
+                freespace = matrix.get(dy).get(x);
+                break;
+            }
+            if (matrix.get(dy).get(x).substance instanceof StaticSolid) {
+                return false;
+            }
+        }
+        if (freespace == null) return false;
+
+        Cell prev = cell;
+        for (int dy = y; dy >= freespace.getY(); dy--) {
+            Cell temp = prev;
+            prev = matrix.get(dy).get(x);
+            matrix.get(dy).set(x, temp);
+        }
+        return true;
     }
 
     public void swapCells(Cell cellA, Cell cellB) {

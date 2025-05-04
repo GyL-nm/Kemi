@@ -29,6 +29,8 @@ public class Controller {
     float bunsenTemp;
     boolean tempSliderChange = false;
 
+//    FPSCounter fpsCounter = new FPSCounter();
+
     Controller(Model model, View view) {
         timescale = 1;
 
@@ -59,8 +61,7 @@ public class Controller {
                     try {
                         String json = new String(Files.readAllBytes(file.toPath()));
                         CellMatrix.fromJsonFile(model.cellMatrix, json);
-                        model.matrixAsImage();
-                        view.matrixPanel.repaint();
+                        view.setMatrixImage(model.matrixAsImage());
 
                     } catch (Exception ex) {
                         System.out.println("Couldn't load tutorial file: " + ex.getMessage());
@@ -147,6 +148,8 @@ public class Controller {
             @Override
             public void mousePressed(MouseEvent e) {
                 view.matrixPanel.setHoveredCell(new Point(e.getX(), e.getY()));
+                if (view.matrixPanel.hoveredCell == null) return;
+
                 Class<? extends Substance> substance = view.substancePanel.selected;
 
                 for (int col = (view.matrixPanel.hoveredCell.x - controller.penSize / 2);
@@ -269,6 +272,7 @@ public class Controller {
     }
 
     public void start() {
+//        fpsCounter.start();
         simTimer.start();
     }
 
@@ -294,15 +298,10 @@ public class Controller {
     private Timer getSimTimer(Model model, View viewFrame, int timescaleReciprocal) {
         double frameRate = (double) (1000*timescale) / (double) 60;
 
-//        FPSCounter fpsCounter = new FPSCounter();
-
         Timer timer = new Timer((int) frameRate, e -> {
             step(model, viewFrame);
 
 //            fpsCounter.frame();
-
-//            viewFrame.fpsComponent.fps = fpsCounter.fps;
-//            viewFrame.fpsComponent.repaint();
         });
         return timer;
     }
@@ -311,6 +310,7 @@ public class Controller {
         double frameRate = (double) 1000/ (double) 60;
 
         Timer timer = new Timer((int) frameRate, e -> {
+//            viewFrame.fpsComponent.fps = fpsCounter.fps();
             Point hoveredCell = viewFrame.matrixPanel.hoveredCell;
 
             if (hoveredCell != null && viewFrame.matrixPanel.contains(hoveredCell)) {
@@ -319,6 +319,9 @@ public class Controller {
             } else {
                 viewFrame.cellInfoLabel.setVisible(false);
             }
+
+
+//            viewFrame.fpsComponent.repaint();
         });
         return timer;
     }
