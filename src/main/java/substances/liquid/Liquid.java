@@ -13,16 +13,6 @@ public abstract class Liquid extends Substance {
     protected Liquid() { }
 
     @Override
-    public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
-        ArrayList<Cell> moveCandidates = new ArrayList<>();
-        moveCandidates.add(adjacent.get(2).get(1)); // immediate below
-        moveCandidates.add(adjacent.get(2).get(0)); // below left
-        moveCandidates.add(adjacent.get(2).get(2)); // below right
-
-        return moveCandidates;
-    }
-
-    @Override
     public ArrayList<int[]> moveCandidateQueue() {
         ArrayList queue = new ArrayList<>();
         queue.add(new int[]{0,1});

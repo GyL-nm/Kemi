@@ -30,12 +30,6 @@ public abstract class Gas extends Substance {
         return queue;
     }
 
-    @Override
-    public ArrayList<Cell> getMoveCandidates(ArrayList<ArrayList<Cell>> adjacent) {
-        Collections.swap(adjacent.get(2), 0, 1);
-        return adjacent.get(2);
-    }
-
 //    @Override
 //    public ArrayList<Substance> getMoveCandidates(ArrayList<ArrayList<Substance>> adjacent) {
 //        ArrayList<Substance> candidates = new ArrayList<>();
