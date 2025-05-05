@@ -10,8 +10,8 @@ import java.awt.*;
 public enum SubstanceProperties {
     EMPTY(0.0, 0, Empty.class, new Color(0, 0, 0, 255)),
 
-    AIR(0.0002236, 2540.0, Air.class, new Color(180, 220, 255, 255)),
-    CHLORINE(0.0002236, 2898.0, Chlorine.class, new Color(220, 255, 180, 255)),
+    AIR(0.0002236, 1.29, Air.class, new Color(180, 220, 255, 255)),
+    CHLORINE(0.0002236, 2.9, Chlorine.class, new Color(220, 255, 180, 255)),
     HYDROGEN(0.0045226, 0.08, Hydrogen.class, new Color(230, 230, 255, 255)),
     OXYGEN(0.0006608, 1.14, Oxygen.class, new Color(161, 228, 253, 255)),
     VAPOUR(0.251256, 0.76, Vapour.class, new Color(223, 255, 255, 255)),
