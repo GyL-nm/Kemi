@@ -23,7 +23,7 @@ public class SodiumSulphate extends Liquid {
 
         this.phases = new ArrayList<>();
         phases.add(new PhaseChange(this.properties.getSubstanceReference(),
-                new ReactionType[]{ReactionType.EVAPORATION},
+                new ReactionType[]{ReactionType.CRYSTALLISATION},
                 new Class[]{this.toMovableSolid(), substances.gas.Vapour.class},
                 0.21,
                 new ReactionCondition[]{new ReactionCondition(ConditionType.GREATER_THAN, 100.76) }));
