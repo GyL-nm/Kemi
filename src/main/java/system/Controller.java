@@ -69,6 +69,12 @@ public class Controller {
                 });
             }
 
+            menuBar.newItem.addActionListener(e -> {
+                System.out.println("New matrix");
+                model.cellMatrix.fill(Empty.class, 25.0);
+                view.setMatrixImage(model.matrixAsImage());
+            });
+
             menuBar.loadItem.addActionListener(e -> {
                 System.out.println("Loading from file");
                 loadMatrixFromFile(model, view);
