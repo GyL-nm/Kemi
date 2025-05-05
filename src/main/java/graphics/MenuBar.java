@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 
 public class MenuBar extends JMenuBar {
     public JMenu fileMenu = new JMenu("File");
+    public JMenu newItem = new JMenu("New");
     public JMenuItem loadItem = new JMenuItem("Load");
     public JMenuItem saveItem = new JMenuItem("Save");
 
@@ -17,6 +18,7 @@ public class MenuBar extends JMenuBar {
     public MenuBar() throws URISyntaxException {
         super();
 
+        fileMenu.add(newItem);
         fileMenu.add(saveItem);
         fileMenu.add(loadItem);
 
