@@ -12,20 +12,20 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Cell {
-    int x;
-    int y;
-
-    final int JITTER_CONSTANT = 6;
-
-    public double temperature; // room temp = 23
-
-    public Substance substance;
+    final static int JITTER_CONSTANT = 6;
 
     public static Cell newCellOfType(Class<? extends Substance> type, int x, int y, double temp) {
         try {
             return new Cell(type.getConstructor().newInstance(),x,y,temp);
         } catch (Exception ignored) { return null; }
     }
+
+    int x;
+    int y;
+
+    public double temperature; // room temp = 25
+
+    public Substance substance;
 
     public Cell(Substance substance, int x, int y, double temperature) {
         this.substance = substance;
@@ -79,7 +79,7 @@ public class Cell {
 
         for (Cell moveCandidate : moveCandidates) {
             if (moveCandidate == null) continue;
-//            if (moveCandidate.substance instanceof StaticSolid) continue;
+            if (moveCandidate.substance instanceof StaticSolid) continue;
 
             if ( cellMatrix.getCellSteppedBit(moveCandidate.x,moveCandidate.y) ) continue;
 
@@ -106,7 +106,7 @@ public class Cell {
                                 cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(x, y));
                                 cellMatrix.steppedBuffer.set(cellMatrix.steppedBitIndex(moveCandidate.x, moveCandidate.y));
                             }
-                        } else { // if right (increase odds to reduce left-side bias)
+                        } else { // if right
                             if (jitter.nextInt(JITTER_CONSTANT) == 1) {
                                 cellMatrix.swapCells(this, moveCandidate);
 
@@ -117,28 +117,13 @@ public class Cell {
                     }
                 }
             }
-
-//            if (    !(substance instanceof Solid)
-//                    && belowCell.substance.getClass() == substance.getClass() // Fluids becoming less dense when they heat up
-//                    && belowCell.temperature > temperature) {
-//
-//                cellMatrix.swapCells(this,belowCell);
-//
-//                return;
-//            }
         }
     }
-
-    public ArrayList<Cell> getSettleCandidates(ArrayList<ArrayList<Cell>> adjacent) { return null; }
-    protected void settle(CellMatrix cellMatrix, ArrayList<Cell> settleCandidates) {}
 
     public void exchangeHeat(ArrayList<ArrayList<Cell>> adjacent) {
         if (substance instanceof TempRadiator) {
             return;
         }
-
-        boolean bunsenAdjacent = false;
-        double totalHeatExchanged = 0;
         for (ArrayList<Cell> row : adjacent) {
             for (Cell cell : row) {
                 if (cell == null || cell == this) continue;
@@ -183,7 +168,8 @@ public class Cell {
                     for (Cell cell : row) {
                         if (cell == null || cell == this) continue;
 
-                        if (cell.substance.properties.getSubstanceReference() == Empty.class) {
+                        if (cell.substance.properties.getSubstanceReference() == phase.reactant() ||
+                        cell.substance.properties.getSubstanceReference() == Empty.class) {
                             boolean passConditions = true;
                             for (ReactionCondition condition : phase.conditions())
                                 if (!condition.condition(this.temperature)) {
