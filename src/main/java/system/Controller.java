@@ -27,7 +27,7 @@ public class Controller {
     Controller(Model model, View view) {
         timescale = 1;
 
-        simTimer = getSimTimer(model, view, timescale);
+        simTimer = getSimTimer(model, view);
         uiTimer = getUITimer(model, view);
 
         penSize = 1;
@@ -257,7 +257,7 @@ public class Controller {
 
     public void setTimescale(Model model, View view) {
         stop();
-        simTimer = getSimTimer(model, view, timescale);
+        simTimer = getSimTimer(model, view);
     }
 
     private void step(Model model, View viewFrame) {
@@ -266,8 +266,8 @@ public class Controller {
         viewFrame.repaint();
     }
 
-    private Timer getSimTimer(Model model, View viewFrame, int timescaleReciprocal) {
-        double frameRate = (double) (1000*timescale) / (double) 60;
+    private Timer getSimTimer(Model model, View viewFrame) {
+        double frameRate = (double) (1000*timescale) / (double) 1000;
 
         Timer timer = new Timer((int) frameRate, e -> {
             step(model, viewFrame);

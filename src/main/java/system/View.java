@@ -87,7 +87,7 @@ public class View extends JFrame {
         controls.add(stepButton, BorderLayout.CENTER);
 
         JPanel timescaleSliderPanel = new JPanel();
-        timescaleSlider = new JSlider(JSlider.HORIZONTAL, 1, 30, 1);
+        timescaleSlider = new JSlider(JSlider.HORIZONTAL, 1, 200, 1);
         timescaleLabel = new JLabel("Timescale 1/"+ timescaleSlider.getValue());
         timescaleSliderPanel.add(timescaleSlider);
         timescaleSliderPanel.add(timescaleLabel);
