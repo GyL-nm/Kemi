@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class MenuBarTest extends JMenuBar {
     private MenuBar menuBar;
 
     @BeforeEach
-    void setUp() throws URISyntaxException {
+    void setUp() throws IOException {
         menuBar = new MenuBar();
     }
 

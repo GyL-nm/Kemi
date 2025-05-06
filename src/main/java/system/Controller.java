@@ -48,11 +48,11 @@ public class Controller {
         try {
             MenuBar menuBar = new MenuBar();
 
-            for (File file : menuBar.tutorialFiles.keySet()) {
+            for (String file : menuBar.tutorialFiles.keySet()) {
                 JMenuItem menuItem = menuBar.tutorialFiles.get(file);
                 menuItem.addActionListener(e -> {
                     try {
-                        String json = new String(Files.readAllBytes(file.toPath()));
+                        String json = file;
                         CellMatrix.fromJsonFile(model.cellMatrix, json);
                         view.setMatrixImage(model.matrixAsImage());
 
