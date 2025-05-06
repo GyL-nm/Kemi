@@ -1,7 +1,6 @@
 package system;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import graphics.FPSGraphic;
 import graphics.MatrixGraphic;
 import graphics.MenuBar;
 import graphics.Splashscreen;

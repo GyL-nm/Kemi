@@ -76,7 +76,6 @@ public class SubstancePanel extends JPanel {
         }
     }
 
-    final Color HIGHLIGHT = new Color(255, 255, 255);
     final Color LOWLIGHT = new Color(120, 120, 120);
     void highlightButton(int index) {
         for (JButton substanceButton : substanceButtons) {

@@ -20,11 +20,6 @@ public class MatrixGraphic extends JPanel {
 
         penSize = 1;
 
-//            private long lastTime = System.nanoTime();
-//            private int frameCount = 0;
-//            private int fps = 0;
-
-
         setPreferredSize(new Dimension(image.getWidth()+x, image.getHeight()+y) );
         setMaximumSize(new Dimension(image.getWidth()+x, image.getHeight()+y));
     }
@@ -66,7 +61,6 @@ public class MatrixGraphic extends JPanel {
         return null;
     }
 
-    Point getHoveredCell() { return hoveredCell; }
     public void setHoveredCell(Point mouseCoordinates) {
         hoveredCell = getCellAtMouse(mouseCoordinates);
     }

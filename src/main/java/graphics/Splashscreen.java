@@ -119,12 +119,4 @@ public class Splashscreen extends JFrame {
             }
         });
     }
-
-    public static void main(String[] args) throws IOException {
-        FontLoader.loadFonts();
-
-        Splashscreen splashscreen = new Splashscreen();
-        splashscreen.setVisible(true);
-        // splashscreen.enableAutoClose();
-    }
 }

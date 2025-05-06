@@ -2,14 +2,10 @@ package system;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import graphics.FPSCounter;
 import graphics.FontLoader;
 import graphics.MenuBar;
 import substances.Empty;
 import substances.Substance;
-import substances.SubstanceProperties;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -26,10 +22,7 @@ public class Controller {
     int timescale;
 
     int penSize;
-    float bunsenTemp;
-    boolean tempSliderChange = false;
-
-//    FPSCounter fpsCounter = new FPSCounter();
+    float cellTemp;
 
     Controller(Model model, View view) {
         timescale = 1;
@@ -38,7 +31,7 @@ public class Controller {
         uiTimer = getUITimer(model, view);
 
         penSize = 1;
-        bunsenTemp = 32f;
+        cellTemp = 32f;
     }
 
     public static void run() {
@@ -112,13 +105,13 @@ public class Controller {
 
         view.tempSlider.addChangeListener(e -> {
             if (!view.tempSlider.getValueIsAdjusting()) {
-                controller.bunsenTemp = view.tempSlider.getValue();
+                controller.cellTemp = view.tempSlider.getValue();
                 view.tempSpinner.setValue(view.tempSlider.getValue());
             }
         });
 
         view.tempSpinner.addChangeListener(e -> {
-            controller.bunsenTemp = ((Number) view.tempSpinner.getValue()).floatValue();
+            controller.cellTemp = ((Number) view.tempSpinner.getValue()).floatValue();
             view.tempSlider.setValue((int) view.tempSpinner.getValue());
         });
 
@@ -195,32 +188,7 @@ public class Controller {
 
     public static GsonBuilder getGsonBuilder() {
         return new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(SubstanceProperties.class, new TypeAdapter<SubstanceProperties>() {
-                    @Override
-                    public void write(JsonWriter out, SubstanceProperties value) throws IOException {
-                        out.value(value.name());
-                    }
-
-                    @Override
-                    public SubstanceProperties read(JsonReader in) throws IOException {
-                        return SubstanceProperties.valueOf(in.nextString());
-                    }
-                }).registerTypeAdapter(Substance.class, new JsonDeserializer<Substance>() {
-                    @Override
-                    public Substance deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
-                                                 JsonDeserializationContext context) throws JsonParseException {
-                        SubstanceProperties properties = context.deserialize(json.getAsJsonObject().get("properties"), SubstanceProperties.class);
-
-                        try {
-                            Substance instance = (Substance) properties.getSubstanceReference().getDeclaredConstructor().newInstance();
-                            instance.properties = properties;
-                            return instance;
-                        } catch (Exception e) {
-                            throw new JsonParseException("Failed to instantiate subclass of Substance", e);
-                        }
-                    }
-                });
+                .setPrettyPrinting();
     }
 
     public static File saveMatrixToFile(Model model, View view) {
@@ -247,7 +215,6 @@ public class Controller {
         } catch (Exception e) {
             System.out.println("Couldn't save to file: " + e);
             throw new RuntimeException(e);
-//            return null;
         }
     }
 
@@ -269,7 +236,6 @@ public class Controller {
         } catch (Exception e) {
             System.out.println("Couldn't load to file: " + e);
             throw new RuntimeException(e);
-//            return null;
         }
     }
 
@@ -278,7 +244,6 @@ public class Controller {
     }
 
     public void start() {
-//        fpsCounter.start();
         simTimer.start();
     }
 
@@ -306,8 +271,6 @@ public class Controller {
 
         Timer timer = new Timer((int) frameRate, e -> {
             step(model, viewFrame);
-
-//            fpsCounter.frame();
         });
         return timer;
     }
@@ -316,7 +279,6 @@ public class Controller {
         double frameRate = (double) 1000/ (double) 60;
 
         Timer timer = new Timer((int) frameRate, e -> {
-//            viewFrame.fpsComponent.fps = fpsCounter.fps();
             Point hoveredCell = viewFrame.matrixPanel.hoveredCell;
 
             if (hoveredCell != null && viewFrame.matrixPanel.contains(hoveredCell)) {
@@ -325,9 +287,6 @@ public class Controller {
             } else {
                 viewFrame.cellInfoLabel.setVisible(false);
             }
-
-
-//            viewFrame.fpsComponent.repaint();
         });
         return timer;
     }
