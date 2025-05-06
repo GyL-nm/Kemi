@@ -68,7 +68,7 @@ public enum CellMatrix {
             for (int row = 0; row < y; row++) {
                 ArrayList<Cell> newRow = new ArrayList<>();
                 for (int col = 0; col < x; col++) {
-                    newRow.add(new Cell(new Empty(), col, row, 32.0));
+                    newRow.add(new Cell(new Empty(), col, row, 25.0));
                 }
                 matrix.add(newRow);
             }

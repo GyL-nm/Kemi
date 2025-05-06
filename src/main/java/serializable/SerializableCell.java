@@ -4,10 +4,10 @@ import substances.SubstanceProperties;
 import system.Cell;
 
 public class SerializableCell {
-    final int x;
-    final int y;
-    final double temperature;
-    final String substanceEnum;
+    public final int x;
+    public final int y;
+    public final double temperature;
+    public final String substanceEnum;
 
     public SerializableCell(Cell rawCell) {
         this.x = rawCell.getX();
