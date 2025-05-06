@@ -11,10 +11,5 @@ public abstract class StaticSolid extends Solid {
     public ArrayList<int[]> moveCandidateQueue() {
         return new ArrayList<>();
     }
-
-//    @Override
-//    public void diffuse(CellMatrix cellMatrix, ArrayList<ArrayList<Substance>> adjacent) {
-//        System.out.println(this + " is static");
-//    }
 }
 

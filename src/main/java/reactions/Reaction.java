@@ -16,9 +16,9 @@ public class Reaction {
         this.conditions = conditions;
     }
 
-    public ReactionType[] type() { return reactionType; }
     public ReactionCondition[] conditions() { return conditions; }
 
     public Class<? extends Substance>[] results() { return results; }
+
     public double temperatureChange() { return temperatureChange; }
 }

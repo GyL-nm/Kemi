@@ -14,10 +14,6 @@ public class ReactionMap extends HashMap<ReactionMap.ReactantPair,Reaction> {
         return super.get(new ReactantPair(a, b));
     }
 
-    public boolean contains(Class<? extends Substance> a, Class<? extends Substance> b) {
-        return super.containsKey(new ReactantPair(a, b));
-    }
-
     public static class ReactantPair {
         private final Class<? extends Substance> reactantA;
         private final Class<? extends Substance> reactantB;
